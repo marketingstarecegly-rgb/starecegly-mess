@@ -1,5 +1,5 @@
 // Service worker: aplikacja działa offline (formularz), API zawsze z sieci.
-const CACHE = 'sc-targi-v1';
+const CACHE = 'sc-targi-v2';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icon.svg', '/icon-512.png', '/logo.png', '/bricks.jpg',
   '/vendor/xlsx.mini.min.js', '/vendor/jspdf.umd.min.js', '/vendor/jspdf.plugin.autotable.min.js',
   '/vendor/Inter-Regular.ttf', '/vendor/Inter-Bold.ttf', '/vendor/qrcode.js'];

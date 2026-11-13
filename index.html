@@ -1860,7 +1860,7 @@ function renderMkt(){
 }
 async function saveCfg(patch){
   const j = await adminPost({ action:'config', patch });
-  if (j && j.config){ srvCfg = j.config; renderMkt(); renderAdmin(); flashMk('✓ Zapisano'); }
+  if (j && j.config){ srvCfg = { ...(srvCfg || {}), ...j.config }; renderMkt(); renderAdmin(); flashMk('✓ Zapisano'); }
   else renderMkt();
 }
 function flashMk(t){ mkMsg(t); clearTimeout(flashMk.tm); flashMk.tm = setTimeout(() => mkMsg(''), 1800); }

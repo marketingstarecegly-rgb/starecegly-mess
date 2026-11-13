@@ -9,6 +9,7 @@ import { db, COLLECTION, safeEqual, deliverWelcome, getConfig, setConfig, setRem
          sendMail, renderWelcome, renderReminder } from './_lib.js';
 
 export const config = { maxDuration: 60 };
+const appUrlEnv = () => (process.env.APP_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || '').trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
 const iso = v => (v && typeof v.toDate === 'function') ? v.toDate().toISOString() : (v || null);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -32,7 +33,7 @@ export default async function handler(req, res) {
           return res.json({ results });
         }
         case 'config':
-          return res.json({ config: await setConfig(body.patch || {}) });
+          return res.json({ config: { ...(await setConfig(body.patch || {})), appUrl: appUrlEnv() } });
         case 'optout':
           if (!ids.length) break;
           await setReminderOptOut(ids, body.value !== false);
@@ -67,7 +68,7 @@ export default async function handler(req, res) {
         reminderOptOut: !!x.reminderOptOut, reminderSkip: x.reminderSkip || null, reminderError: x.reminderError || null
       };
     });
-    const appUrl = (process.env.APP_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || '').trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
+    const appUrl = appUrlEnv();
     return res.json({ leads, config: { ...cfg, appUrl } });
   } catch (e) {
     console.error('leads', e);
