@@ -1,0 +1,2002 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Starecegly.com – Targi</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#111111; --ink-2:#4A4A4A; --muted:#777777; --line:#CFCFCF; --line-2:#E6E6E6;
+  --bg:#ffffff; --soft:#F6F7F8;
+  --orange:#F49E1A; --orange-soft:#FDE6C4; --orange-dark:#D9840A;
+  --blue:#0745C0; --ok:#1F8A4C; --err:#C62828;
+  --radius:8px;
+  --display:"Montserrat",Arial,sans-serif;
+  --text:"Montserrat",Arial,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:var(--text);font-size:18px;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+body{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+input,textarea{user-select:text;-webkit-user-select:text}
+button{font-family:inherit}
+
+/* ---------- Layout ---------- */
+.app{display:grid;grid-template-columns:minmax(340px,40%) 1fr;height:100dvh;min-height:100vh}
+.hero{position:relative;color:#fff;padding:48px 44px;display:flex;flex-direction:column;overflow:hidden;
+  background-color:#141110;
+  background-image:
+    linear-gradient(180deg,rgba(18,18,18,.62) 0%,rgba(18,18,18,.82) 55%,rgba(18,18,18,.95) 100%),
+    url("/bricks.jpg");
+  background-size:cover;background-position:center}
+.logo{font-family:var(--display);font-weight:800;font-size:34px;letter-spacing:-.5px;line-height:1;cursor:default;align-self:flex-start;padding:6px 0;touch-action:none}
+.logo img{display:block;height:74px;width:auto;pointer-events:none;-webkit-user-drag:none}
+.ad-head .logo img{height:40px}
+.hero h1{font-family:var(--display);font-weight:800;font-size:46px;line-height:1.08;margin:auto 0 18px;letter-spacing:-.5px}
+.hero p.lead{font-size:20px;line-height:1.5;color:#e9e6e4;margin:0 0 28px;max-width:30ch}
+.badge{display:inline-flex;align-items:center;gap:14px;background:var(--orange);color:var(--ink);border-radius:var(--radius);padding:14px 20px;align-self:flex-start;margin-bottom:30px;box-shadow:0 8px 24px rgba(248,152,29,.35)}
+.badge b{font-family:var(--display);font-size:40px;font-weight:800;line-height:1;white-space:nowrap}
+.badge span{font-size:16px;font-weight:600;line-height:1.25}
+.usp{list-style:none;padding:0;margin:0 0 auto;display:grid;gap:12px}
+.usp li{display:flex;gap:12px;align-items:flex-start;font-size:17px;color:#f1eeec}
+.usp svg{flex:none;margin-top:2px}
+.hero-foot{margin-top:32px;font-size:14px;color:#b9b2ae;display:flex;align-items:center;gap:10px}
+.sync-dot{width:9px;height:9px;border-radius:50%;background:#5c5c5c;flex:none}
+.sync-dot.ok{background:#3ccf7a}.sync-dot.pending{background:var(--orange)}.sync-dot.off{background:#d64545}
+
+.panel{overflow-y:auto;padding:44px 56px 40px;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch}
+.steps{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--muted);margin-bottom:22px;text-transform:uppercase;letter-spacing:.08em}
+.steps .bar{flex:1;height:4px;background:var(--line-2);border-radius:4px;overflow:hidden;max-width:220px}
+.steps .bar i{display:block;height:100%;width:50%;background:var(--orange);transition:width .35s ease}
+h2{font-family:var(--display);font-size:34px;font-weight:700;margin:0 0 6px;letter-spacing:-.3px}
+.sub{color:var(--ink-2);margin:0 0 28px;font-size:18px}
+
+/* ---------- Form ---------- */
+.field{margin-bottom:20px}
+.field label{display:block;font-weight:600;font-size:16px;margin-bottom:8px}
+.field label small{font-weight:400;color:var(--muted)}
+.input{width:100%;height:64px;border:1.5px solid var(--line);border-radius:var(--radius);padding:0 18px;font-size:21px;font-family:inherit;color:var(--ink);background:#fff;outline:none;transition:border-color .15s, box-shadow .15s;-webkit-appearance:none;appearance:none}
+textarea.input{height:110px;padding:16px 18px;resize:none;line-height:1.4}
+.input:focus{border-color:var(--orange);box-shadow:0 0 0 4px var(--orange-soft)}
+.field.invalid .input{border-color:var(--err)}
+.err{display:none;color:var(--err);font-size:15px;margin-top:6px}
+.field.invalid .err{display:block}
+.suggest{display:none;margin-top:8px;font-size:16px;color:var(--ink-2)}
+.suggest button{border:0;background:var(--orange-soft);color:var(--ink);font-weight:600;font-size:16px;padding:8px 12px;border-radius:6px;margin-left:6px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.chip,.tile{border:1.5px solid var(--line);background:#fff;border-radius:var(--radius);color:var(--ink);font-size:16px;font-weight:500;cursor:pointer;transition:all .12s;touch-action:manipulation}
+.chip{min-height:58px;padding:8px 10px;line-height:1.2}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:#fff}
+
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+.tile{position:relative;min-height:84px;padding:14px 44px 14px 16px;text-align:left;line-height:1.25;display:flex;align-items:center}
+.tile::after{content:"";position:absolute;right:14px;top:50%;width:22px;height:22px;margin-top:-11px;border:1.5px solid var(--line);border-radius:6px;background:#fff}
+.tile[aria-pressed="true"]{border-color:var(--orange);background:#FFF6E8;box-shadow:inset 0 0 0 1px var(--orange)}
+.tile[aria-pressed="true"]::after{background:var(--orange) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/16px no-repeat;border-color:var(--orange)}
+.chip:active,.tile:active{transform:scale(.98)}
+
+.consent{display:flex;gap:16px;align-items:flex-start;padding:16px 18px;border:1.5px solid var(--line);border-radius:var(--radius);background:var(--soft);cursor:pointer;margin-bottom:8px}
+.consent .box{flex:none;width:30px;height:30px;border:2px solid var(--ink-2);border-radius:6px;background:#fff;margin-top:2px}
+.consent[aria-checked="true"] .box{background:var(--orange) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/20px no-repeat;border-color:var(--orange)}
+.consent p{margin:0;font-size:14.5px;line-height:1.5;color:var(--ink-2)}
+.consent.invalid{border-color:var(--err)}
+
+.actions{display:flex;gap:14px;margin-top:26px;align-items:center}
+.btn{height:66px;border-radius:var(--radius);border:0;font-size:20px;font-weight:600;padding:0 30px;cursor:pointer;touch-action:manipulation;display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.btn-primary{background:var(--ink);color:#fff;flex:1}
+.btn-primary:active{background:#000}
+.btn-primary .pct{background:var(--orange);color:var(--ink);border-radius:6px;padding:4px 9px;font-size:17px;white-space:nowrap;flex:none}
+.btn-ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.btn[disabled]{opacity:.5}
+.legal{margin-top:auto;padding-top:24px;font-size:13px;color:var(--muted)}
+.legal a{color:var(--muted)}
+
+.step{display:none}.step.active{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------- Overlays ---------- */
+.overlay{position:fixed;inset:0;display:none;z-index:50}
+.overlay.show{display:flex}
+#thanks{background:var(--ink);color:#fff;align-items:center;justify-content:center;text-align:center;padding:40px}
+#thanks .ring{width:110px;height:110px;border-radius:50%;background:var(--orange);display:grid;place-items:center;margin:0 auto 28px;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+#thanks h2{font-size:48px;color:#fff;margin-bottom:14px}
+#thanks p{font-size:22px;color:#ddd;max-width:34ch;margin:0 auto 10px;line-height:1.5}
+#thanks .mail{color:var(--orange);font-weight:600;word-break:break-all}
+#thanks .btn{margin-top:30px;background:#fff;color:var(--ink);min-width:260px}
+#thanks .count{font-size:15px;color:#999;margin-top:14px}
+
+/* PIN */
+#pin{background:rgba(18,18,18,.92);align-items:center;justify-content:center}
+.pinbox{background:#fff;border-radius:14px;padding:30px;width:min(360px,92vw);text-align:center}
+.pinbox h3{margin:0 0 6px;font-family:var(--display);font-size:24px}
+.pinbox .hint{color:var(--muted);font-size:15px;margin:0 0 18px;min-height:20px}
+.pinbox .hint.bad{color:var(--err)}
+.dots{display:flex;justify-content:center;gap:12px;margin-bottom:22px;min-height:18px}
+.dots i{width:16px;height:16px;border-radius:50%;background:var(--ink)}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.keys button{height:66px;font-size:26px;font-weight:600;border:1.5px solid var(--line-2);border-radius:10px;background:var(--soft);color:var(--ink)}
+.keys button:active{background:var(--line-2)}
+
+/* Admin (PL) */
+#admin{background:var(--soft);flex-direction:column;user-select:text;-webkit-user-select:text}
+.ad-head{display:flex;align-items:center;gap:14px 18px;padding:16px 24px;background:var(--ink);color:#fff;flex-wrap:wrap}
+.ad-head .logo{font-size:24px}
+.ad-head h3{margin:0;font-size:17px;font-weight:600;flex:1;color:#bbb;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ad-tabs{display:flex;gap:8px}
+.ad-tabs button{height:44px;padding:0 16px;border-radius:8px;border:1.5px solid #3a3a3a;background:transparent;color:#ddd;font-size:15px;font-weight:600}
+.ad-tabs button[aria-selected="true"]{background:#fff;color:var(--ink);border-color:#fff}
+.ad-close{height:44px;padding:0 16px;border-radius:8px;border:0;background:var(--orange);color:var(--ink);font-size:15px;font-weight:700}
+.ad-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:22px 24px 40px}
+.view{display:none}.view.active{display:block}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat{background:#fff;border-radius:10px;padding:14px 16px;border:1px solid var(--line-2);min-width:0}
+.stat b{display:block;font-family:var(--display);font-size:30px}
+.stat span{color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.toolbar .btn{height:46px;font-size:15px;padding:0 16px;flex:none}
+.toolbar input{height:46px;border:1.5px solid var(--line);border-radius:8px;padding:0 14px;font-size:16px;min-width:200px;flex:1}
+.btn-warn{background:var(--err);color:#fff}
+.msg{font-size:14px;color:var(--ink-2);margin:0 0 12px;min-height:18px}
+.msg.bad{color:var(--err);font-weight:600}
+table.leads{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:14px;table-layout:fixed}
+.leads th,.leads td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line-2);vertical-align:top;overflow-wrap:anywhere}
+.leads th{background:#fafafa;font-weight:600;color:var(--ink-2)}
+.tag{display:inline-block;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+.tag.ok{background:#e3f5ea;color:var(--ok)} .tag.wait{background:var(--orange-soft);color:#8A4F05} .tag.bad{background:#fde6e6;color:var(--err)} .tag.loc{background:#e8eefc;color:var(--blue)}
+.mailerr{display:block;margin-top:6px;font-size:12px;line-height:1.4;color:var(--err)}
+.mailerr b{display:block;color:var(--ink);font-weight:600;margin-bottom:2px}
+.resend{margin-top:6px;height:34px;padding:0 10px;border-radius:6px;border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:600;color:var(--ink)}
+
+/* Settings */
+.card{background:#fff;border:1px solid var(--line-2);border-radius:12px;padding:20px 22px;margin-bottom:16px}
+.card h4{margin:0 0 4px;font-family:var(--display);font-size:19px}
+.card > p{margin:0 0 16px;color:var(--muted);font-size:14px}
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--line-2)}
+.set-row:first-of-type{border-top:0}
+.set-row .lbl{font-size:15px;font-weight:600}
+.set-row .lbl small{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:2px}
+.set-row input[type=text]{height:46px;border:1.5px solid var(--line);border-radius:8px;padding:0 12px;font-size:16px;width:min(320px,100%)}
+.opts{display:inline-flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.opts button{height:42px;padding:0 14px;border:0;background:#fff;font-size:14px;font-weight:600;color:var(--ink-2);border-left:1.5px solid var(--line)}
+.opts button:first-child{border-left:0}
+.opts button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.switch{position:relative;width:56px;height:32px;border-radius:32px;background:var(--line);border:0;flex:none;transition:background .15s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
+.switch[aria-checked="true"]{background:var(--orange)}
+.switch[aria-checked="true"]::after{transform:translateX(24px)}
+.diag{margin-top:14px;display:grid;gap:8px;font-size:14px}
+.diag div{padding:10px 12px;border-radius:8px;background:var(--soft);line-height:1.45;overflow-wrap:anywhere}
+.diag .ok{background:#e3f5ea;color:#155c33}.diag .bad{background:#fde6e6;color:#8e1c1c}
+.saved{font-size:13px;color:var(--ok);font-weight:600;min-height:18px}
+
+/* ---------- Skaner wizytówek ---------- */
+.scan-cta{display:flex;align-items:center;gap:14px;width:100%;padding:14px 18px;margin:0 0 22px;border:1.5px dashed var(--orange);border-radius:var(--radius);background:#FFF8EE;color:var(--ink);text-align:left;cursor:pointer;touch-action:manipulation}
+.scan-cta svg{flex:none;color:var(--orange-dark)}
+.scan-cta b{display:block;font-size:17px}
+.scan-cta small{display:block;font-size:14px;color:var(--ink-2);margin-top:2px}
+.scan-cta:active{transform:scale(.99)}
+.scan-cta.hide{display:none}
+.scan-note{display:none;margin:-10px 0 18px;padding:10px 14px;border-radius:8px;background:#e3f5ea;color:#155c33;font-size:15px;font-weight:600}
+.scan-note.show{display:block}
+.tag.src{background:#FFF1DE;color:#8A4F05;margin-left:4px;vertical-align:1px}
+.leads small.co{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:2px}
+
+#scanner{background:#000;flex-direction:column;color:#fff;z-index:60}
+.sc-top{display:flex;align-items:center;gap:12px;padding:14px 16px;padding-top:max(14px, env(safe-area-inset-top))}
+.sc-title{flex:1;font-family:var(--display);font-weight:700;font-size:19px}
+.sc-count{font-size:14px;color:#ccc}
+.sc-x{width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:20px;flex:none}
+.sc-x.dark{background:var(--soft);color:var(--ink)}
+.sc-stage{position:relative;flex:1;min-height:0;overflow:hidden;background:#111}
+.sc-stage video{width:100%;height:100%;object-fit:cover;display:block}
+#scanner.nocam .sc-stage video{display:none}
+.sc-frame{position:absolute;left:50%;top:50%;width:min(86%, 620px);aspect-ratio:85/55;transform:translate(-50%,-50%);border-radius:14px;box-shadow:0 0 0 2000px rgba(0,0,0,.45);pointer-events:none}
+.sc-frame i{position:absolute;width:34px;height:34px;border:4px solid var(--orange)}
+.sc-frame i:nth-child(1){left:-2px;top:-2px;border-right:0;border-bottom:0;border-radius:12px 0 0 0}
+.sc-frame i:nth-child(2){right:-2px;top:-2px;border-left:0;border-bottom:0;border-radius:0 12px 0 0}
+.sc-frame i:nth-child(3){left:-2px;bottom:-2px;border-right:0;border-top:0;border-radius:0 0 0 12px}
+.sc-frame i:nth-child(4){right:-2px;bottom:-2px;border-left:0;border-top:0;border-radius:0 0 12px 0}
+.sc-hint{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-size:16px;font-weight:600;text-shadow:0 1px 4px #000;padding:0 16px}
+.sc-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .25s}
+.sc-flash.on{opacity:.85;transition:none}
+.sc-busy{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:rgba(0,0,0,.6);font-size:18px}
+.sc-busy.show{display:flex}
+.spin{width:46px;height:46px;border-radius:50%;border:4px solid rgba(255,255,255,.25);border-top-color:var(--orange);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sc-staff{padding:12px 16px 0;background:#000}
+.sc-langrow{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:14px;color:#ccc}
+.sc-langs{display:inline-flex;gap:6px}
+.sc-langs button{height:36px;min-width:46px;border-radius:8px;border:1.5px solid #555;background:transparent;color:#eee;font-weight:700;font-size:14px}
+.sc-langs button[aria-pressed="true"]{background:#fff;border-color:#fff;color:var(--ink)}
+.sc-langs.light button{border-color:var(--line);color:var(--ink-2);background:#fff}
+.sc-langs.light button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.sc-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+.sc-chips::-webkit-scrollbar{display:none}
+.sc-chips button{flex:none;height:40px;padding:0 14px;border-radius:20px;border:1.5px solid #555;background:transparent;color:#eee;font-size:14px;font-weight:600;white-space:nowrap}
+.sc-chips button[aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:var(--ink)}
+.sc-chips.light{flex-wrap:wrap;overflow:visible}
+.sc-chips.light button{border-color:var(--line);color:var(--ink-2);background:#fff}
+.sc-chips.light button[aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:var(--ink)}
+.sc-consent{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:8px 14px;border-radius:10px;border:1.5px solid #555;background:transparent;color:#fff;font-size:15px;font-weight:600;text-align:left}
+.sc-consent .box{flex:none;width:26px;height:26px;border-radius:6px;border:2px solid #aaa;background:transparent}
+.sc-consent[aria-checked="true"]{border-color:var(--orange)}
+.sc-consent[aria-checked="true"] .box{background:var(--orange) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23121212' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/18px no-repeat;border-color:var(--orange)}
+.sc-consent.pulse{animation:pulse .5s ease 2}
+@keyframes pulse{50%{border-color:#ff5050;box-shadow:0 0 0 4px rgba(255,80,80,.35)}}
+.sc-consent.light{color:var(--ink);border-color:var(--line);background:var(--soft);margin-top:12px}
+.sc-consent.light .box{border-color:var(--ink-2);background:#fff}
+.sc-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;padding-bottom:max(18px, env(safe-area-inset-bottom));background:#000}
+.sc-alt{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;font-size:13px;color:#ccc;cursor:pointer;min-width:0}
+.sc-spacer{visibility:hidden}
+.sc-shot{width:78px;height:78px;border-radius:50%;border:5px solid #fff;background:transparent;padding:5px;flex:none}
+.sc-shot i{display:block;width:100%;height:100%;border-radius:50%;background:var(--orange)}
+.sc-shot:active i{transform:scale(.9)}
+.sc-toast{position:absolute;left:50%;top:max(84px, calc(env(safe-area-inset-top) + 70px));transform:translateX(-50%);max-width:min(92%, 560px);padding:12px 18px;border-radius:10px;background:rgba(255,255,255,.95);color:var(--ink);font-size:15px;font-weight:600;text-align:center;opacity:0;pointer-events:none;transition:opacity .2s;z-index:3}
+.sc-toast.show{opacity:1}
+.sc-toast.bad{background:#fde6e6;color:#8e1c1c}
+
+#review{z-index:70;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:16px}
+.rv-box{background:#fff;color:var(--ink);border-radius:14px;width:min(860px,100%);max-height:100%;display:flex;flex-direction:column;overflow:hidden;user-select:text;-webkit-user-select:text}
+.rv-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line-2)}
+.rv-head h3{flex:1;margin:0;font-family:var(--display);font-size:20px}
+.rv-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:18px;padding:18px 20px;overflow-y:auto}
+.rv-img img{width:100%;border-radius:10px;border:1px solid var(--line-2);display:block}
+.rv-msg{margin:0 0 10px;font-size:14px;font-weight:600;color:var(--err)}
+.rv-msg:empty{display:none}
+.rv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+.rv-grid label{font-size:13px;font-weight:600;color:var(--ink-2);display:flex;flex-direction:column;gap:4px}
+.rv-grid input{height:46px;border:1.5px solid var(--line);border-radius:8px;padding:0 12px;font-size:16px;color:var(--ink);font-family:inherit;min-width:0}
+.rv-grid input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-soft)}
+.rv-grid input.bad{border-color:var(--err)}
+.rv-sub{font-size:13px;font-weight:600;color:var(--ink-2);margin:14px 0 8px}
+.rv-actions{display:flex;gap:10px;padding:14px 20px;border-top:1px solid var(--line-2)}
+.rv-actions .btn{height:54px;font-size:17px}
+@media (max-width:700px){
+  .rv-body{grid-template-columns:1fr}
+  .rv-img img{max-height:180px;object-fit:contain;background:var(--soft)}
+  .rv-grid{grid-template-columns:1fr}
+  #review{padding:0}
+  .rv-box{border-radius:0;height:100%}
+  .scan-cta{padding:12px 14px;margin-bottom:16px}
+  .scan-cta b{font-size:16px}
+  .scan-cta small{font-size:13px}
+}
+
+/* ---------- Marketing ---------- */
+.qr-wrap{display:flex;gap:20px;align-items:flex-start;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-2)}
+#qrCanvas{width:200px;height:200px;border:1px solid var(--line-2);border-radius:10px;background:#fff;flex:none}
+.qr-side{display:flex;flex-direction:column;gap:8px;flex:1;min-width:0}
+.qr-side .btn{height:46px;font-size:15px}
+.qr-url{font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;background:var(--soft);padding:8px 10px;border-radius:8px;font-family:ui-monospace,Menlo,monospace}
+.qr-stat{font-size:14px;color:var(--muted)}
+.reminfo{display:block;margin-top:6px;font-size:12px;color:var(--muted)}
+#vMkt .card > p, #vScan .card > p{line-height:1.5}
+@media (max-width:860px){
+  .qr-wrap{flex-direction:column;align-items:stretch}
+  #qrCanvas{width:100%;height:auto;max-width:260px;align-self:center}
+  .ad-tabs button{font-size:13px;padding:0 4px}
+}
+
+/* ---------- Języki ---------- */
+.langs{position:absolute;top:44px;right:40px;display:flex;gap:6px;z-index:2}
+.langs button{min-width:46px;height:40px;padding:0 10px;border-radius:8px;border:1.5px solid rgba(255,255,255,.35);background:rgba(0,0,0,.25);color:#fff;font-size:15px;font-weight:700;letter-spacing:.04em;touch-action:manipulation}
+.langs button[aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:var(--ink)}
+.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
+#thanks a.btn{text-decoration:none}
+#thanks .btn + .btn{margin-left:10px}
+#qrOff{background:var(--ink);align-items:center;justify-content:center;padding:28px;text-align:center;color:#fff}
+.qroff img{height:80px;margin-bottom:28px}
+.qroff h2{color:#fff;font-size:28px;margin:0 0 12px}
+.qroff p{color:#ccc;font-size:17px;line-height:1.5;max-width:32ch;margin:0 auto 26px}
+.qroff .btn{text-decoration:none;background:var(--orange);color:var(--ink)}
+body.qrmode .scan-cta{display:none!important}
+body.qrmode .hero-foot{display:none}
+
+/* UI scale (Ustawienia → Ekran) */
+.app{zoom:var(--z,1);min-height:calc(100vh / var(--z,1));height:calc(100dvh / var(--z,1))}
+
+/* Setup */
+#setup{background:var(--ink);align-items:center;justify-content:center}
+.setupbox{background:#fff;border-radius:14px;padding:34px;width:min(520px,92vw)}
+.setupbox h3{font-family:var(--display);font-size:26px;margin:0 0 6px}
+.setupbox p{color:var(--ink-2);font-size:15px;margin:0 0 20px;line-height:1.5}
+
+/* ---------- Responsive: portrait tablet ---------- */
+@media (max-width:1000px), (orientation:portrait){
+  .app{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .hero{padding:26px 34px 24px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px 24px}
+  .hero h1{font-size:30px;margin:12px 0 4px;grid-column:1}
+  .hero p.lead{display:none}
+  .badge{grid-column:2;grid-row:1 / span 3;margin:0;align-self:center}
+  .usp,.hero-foot{display:none}
+  .logo{grid-column:1;grid-row:1}
+  .langs{position:static;grid-column:2;grid-row:1;justify-self:end}
+  .hero h1{grid-row:2}
+  .badge{grid-row:2 / span 2 !important}
+  .panel{padding:30px 34px}
+  .tiles{grid-template-columns:repeat(2,1fr)}
+}
+/* ---------- Phones ---------- */
+@media (max-width:640px){
+  html,body{font-size:16px}
+  .hero{grid-template-columns:1fr auto;padding:18px 18px 16px;gap:4px 12px}
+  .logo img{height:48px}
+  .langs button{min-width:38px;height:32px;font-size:13px;padding:0 8px}
+  .hero h1{font-size:21px;margin:8px 0 0}
+  .hero h1 br{display:none}
+  .badge{padding:10px 12px;gap:8px;box-shadow:none}
+  .badge b{font-size:26px}
+  .badge span{font-size:12px}
+  .badge span br{display:none}
+  .badge{max-width:170px}
+  .panel{padding:20px 18px 24px}
+  .steps{margin-bottom:14px;font-size:12px}
+  h2{font-size:24px}
+  .sub{font-size:15px;margin-bottom:18px}
+  .field{margin-bottom:14px}
+  .field label{font-size:15px}
+  .input{height:54px;font-size:17px;padding:0 14px}
+  textarea.input{height:90px;padding:12px 14px}
+  .seg{grid-template-columns:1fr 1fr;gap:8px}
+  .chip{min-height:52px;font-size:14px}
+  .tiles{grid-template-columns:1fr;gap:8px;margin-bottom:16px}
+  .tile{min-height:56px;font-size:15px;padding:10px 44px 10px 14px}
+  .consent{padding:12px 14px;gap:12px}
+  .consent p{font-size:13px}
+  .consent .box{width:26px;height:26px}
+  .actions{margin-top:18px;gap:10px}
+  .btn{height:56px;font-size:17px;padding:0 16px}
+  #back{width:56px;padding:0;flex:none}
+  .btn-primary .pct{font-size:14px;padding:3px 7px}
+  .legal{font-size:12px;padding-top:18px}
+  .row{grid-template-columns:1fr}
+  #thanks{padding:24px}
+  #thanks h2{font-size:32px}
+  #thanks p{font-size:18px}
+  #thanks .ring{width:84px;height:84px;margin-bottom:20px}
+  .setupbox{padding:22px}
+}
+@media (max-width:380px){
+  .btn-primary .pct{display:none}
+}
+
+/* Admin on narrow screens: cards instead of table */
+@media (max-width:860px){
+  .ad-head{padding:12px 16px}
+  .ad-head .logo img{height:34px}
+  .ad-head h3{flex-basis:100%;order:3;font-size:14px}
+  .ad-tabs{order:4;flex:1}
+  .ad-tabs button{flex:1;height:42px;font-size:14px;padding:0 8px}
+  .ad-close{margin-left:auto;height:40px;font-size:14px;padding:0 12px}
+  .ad-body{padding:14px 14px 40px}
+  .stats{grid-template-columns:1fr 1fr;gap:8px}
+  .stat{padding:12px}
+  .stat b{font-size:24px}
+  .toolbar input{flex-basis:100%;min-width:0}
+  .toolbar .btn{flex:1 1 calc(50% - 5px);font-size:14px;padding:0 10px;height:46px}
+  table.leads,.leads tbody,.leads tr,.leads td{display:block;width:100%}
+  .leads thead{display:none}
+  table.leads{background:transparent;border-radius:0}
+  .leads tr{background:#fff;border:1px solid var(--line-2);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;flex-direction:column}
+  .leads td.c-name{order:-1}
+  .leads td{border:0;padding:4px 0;display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:14px}
+  .leads td::before{content:attr(data-l);color:var(--muted);font-size:13px}
+  .leads td:empty{display:none}
+  .leads td.c-name{font-size:17px;font-weight:700;display:block;padding-bottom:6px}
+  .leads td.c-name::before{display:none}
+  .leads td.empty{display:block;color:#888;text-align:center}
+  .leads td.empty::before{display:none}
+  .set-row{flex-wrap:wrap}
+  .set-row input[type=text]{width:100%}
+  .card{padding:16px}
+}
+@media (max-height:820px) and (orientation:landscape){
+  .hero{padding:34px 36px}
+  .hero h1{font-size:38px}
+  .panel{padding:30px 44px}
+  .input{height:58px}
+  .tile{min-height:72px}
+  .sub{margin-bottom:20px}
+  .field{margin-bottom:16px}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- ===== Left: brand ===== -->
+  <aside class="hero">
+    <div class="logo" id="logo"><img src="/logo.png" alt="Starecegly.com" draggable="false"></div>
+    <div class="langs" id="langs" role="group" aria-label="Język"><button type="button" data-lang="pl" aria-pressed="true">PL</button><button type="button" data-lang="en" aria-pressed="false">EN</button><button type="button" data-lang="de" aria-pressed="false">DE</button></div>
+    <h1 data-i18n-html="h1">Schön, dass Sie <br>bei uns sind!</h1>
+    <p class="lead" data-i18n="lead">Melden Sie sich in 30 Sekunden an – wir schicken Ihnen Ihren persönlichen Messe-Gutschein per E-Mail.</p>
+    <div class="badge"><b id="pctBadge">5 %</b><span data-i18n-html="badge">Rabatt auf Ihre <br>erste Bestellung</span></div>
+    <ul class="usp">
+      <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F49E1A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="usp1">Ziegelriemchen aus echten alten Ziegeln</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F49E1A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="usp2">Passendes Montagezubehör im Komplettset</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F49E1A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="usp3">Lieferung nach Deutschland &amp; Österreich</span></li>
+    </ul>
+    <div class="hero-foot"><span class="sync-dot" id="syncDot"></span><span id="syncText">starecegly.com</span></div>
+  </aside>
+
+  <!-- ===== Right: form ===== -->
+  <main class="panel">
+    <div class="steps"><span id="stepLabel">Schritt 1 von 2</span><span class="bar"><i id="stepBar"></i></span></div>
+
+    <form id="form" novalidate autocomplete="off">
+      <!-- Step 1 -->
+      <section class="step active" data-step="1">
+        <h2 data-i18n="s1h">Ihre Kontaktdaten</h2>
+        <p class="sub" data-i18n="s1sub">Damit wir Ihnen den Gutschein zusenden können.</p>
+        <button type="button" class="scan-cta" id="scanForm"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/></svg><span><b data-i18n="scanB">Visitenkarte scannen</b><small data-i18n="scanS">Daten automatisch übernehmen – statt tippen</small></span></button>
+        <div class="scan-note" id="scanNote" data-i18n="scanNote">Daten von der Visitenkarte übernommen – bitte kurz prüfen.</div>
+
+        <div class="field" data-f="name">
+          <label for="name" data-i18n="nameL">Vor- und Nachname</label>
+          <input class="input" id="name" name="name" type="text" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" enterkeyhint="next" maxlength="120" placeholder="Max Mustermann" data-i18n-ph="nameP">
+          <div class="err" data-i18n="nameE">Bitte geben Sie Ihren Namen ein.</div>
+        </div>
+
+        <div class="field" data-f="email">
+          <label for="email" data-i18n="emailL">E-Mail-Adresse</label>
+          <input class="input" id="email" name="email" type="email" inputmode="email" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="next" maxlength="160" placeholder="max@beispiel.de" data-i18n-ph="emailP">
+          <div class="err" data-i18n="emailE">Bitte geben Sie eine gültige E-Mail-Adresse ein.</div>
+          <div class="suggest" id="suggest"><span data-i18n="suggest">Meinten Sie</span> <button type="button" id="suggestBtn"></button>?</div>
+        </div>
+
+        <div class="field" data-f="phone">
+          <label for="phone"><span data-i18n="phoneL">Telefon</span> <small id="phoneOpt"></small></label>
+          <input class="input" id="phone" name="phone" type="tel" inputmode="tel" autocomplete="off" enterkeyhint="done" maxlength="40" placeholder="+49 170 1234567">
+          <div class="err" data-i18n="phoneE">Bitte geben Sie eine gültige Telefonnummer ein.</div>
+        </div>
+
+        <div class="field">
+          <label><span data-i18n="ctypeL">Sie sind</span> <small data-i18n="optional">(optional)</small></label>
+          <div class="seg" id="ctype">
+            <button type="button" class="chip" data-v="privat" aria-pressed="false" data-i18n="ct_privat">Privatkunde</button>
+            <button type="button" class="chip" data-v="handwerk" aria-pressed="false" data-i18n="ct_handwerk">Handwerker / Bauunternehmen</button>
+            <button type="button" class="chip" data-v="planer" aria-pressed="false" data-i18n="ct_planer">Architekt / Planer</button>
+            <button type="button" class="chip" data-v="handel" aria-pressed="false" data-i18n="ct_handel">Händler</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-primary" id="next"><span data-i18n="next">Weiter</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 2 -->
+      <section class="step" data-step="2">
+        <h2 data-i18n="s2h">Wofür interessieren Sie sich?</h2>
+        <p class="sub" data-i18n="s2sub">Mehrfachauswahl möglich – wir schicken Ihnen passende Infos.</p>
+
+        <div class="tiles" id="tiles"></div>
+
+        <div class="field">
+          <label for="note"><span data-i18n="noteL">Ihr Projekt</span> <small data-i18n="optional">(optional)</small></label>
+          <textarea class="input" id="note" name="note" maxlength="600" autocomplete="off" spellcheck="false" placeholder="z. B. Wohnzimmerwand ca. 15 m², Küche, Fassade …" data-i18n-ph="noteP"></textarea>
+          <input type="text" id="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+        </div>
+
+        <div class="consent" id="consent" role="checkbox" aria-checked="false" tabindex="0">
+          <span class="box"></span>
+          <p id="consentText"></p>
+        </div>
+        <div class="err" id="consentErr" style="color:var(--err);font-size:15px" data-i18n="consentErr">Bitte bestätigen Sie die Einwilligung.</div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="back" aria-label="Zurück" data-i18n-aria="back">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          </button>
+          <button type="submit" class="btn btn-primary" id="submit"><span data-i18n="submit">Anmelden &amp; Gutschein sichern</span> <span class="pct" id="pctBtn">−5 %</span></button>
+        </div>
+      </section>
+    </form>
+
+    <div class="legal">Starecegly.com · Stare Cegły Sp. z o.o. · <a href="https://starecegly.com/pl/i/Polityka-prywatnosci/11" target="_blank" rel="noopener" data-i18n="privacy">Polityka prywatności</a> · <a href="https://starecegly.com/pl/i/KONTAKT/9" target="_blank" rel="noopener" data-i18n="imprint">Kontakt</a></div>
+  </main>
+</div>
+
+<!-- ===== Skaner wizytówek ===== -->
+<div class="overlay" id="scanner">
+  <div class="sc-top">
+    <button class="sc-x" id="scClose" aria-label="Schließen">✕</button>
+    <div class="sc-title" id="scTitle"></div>
+    <div class="sc-count" id="scCount"></div>
+  </div>
+  <div class="sc-stage">
+    <video id="scVideo" playsinline muted autoplay></video>
+    <div class="sc-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sc-hint" id="scHint"></div>
+    <div class="sc-flash" id="scFlash"></div>
+    <div class="sc-busy" id="scBusy"><span class="spin"></span><b id="scBusyText"></b></div>
+  </div>
+  <div class="sc-staff" id="scStaff">
+    <div class="sc-langrow"><span>Język maila:</span><div class="sc-langs" id="scLangs"><button type="button" data-lang="pl">PL</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="de">DE</button></div></div>
+    <div class="sc-chips" id="scChips"></div>
+    <button type="button" class="sc-consent" id="scConsent" aria-checked="false"><span class="box"></span><span>Klient zgodził się na kontakt e-mail (gutschein, oferty)</span></button>
+  </div>
+  <div class="sc-bottom">
+    <label class="sc-alt"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/></svg><span id="scFileLbl"></span><input type="file" accept="image/*" capture="environment" id="scFile" hidden></label>
+    <button type="button" class="sc-shot" id="scShot"><i></i></button>
+    <span class="sc-alt sc-spacer"></span>
+  </div>
+  <div class="sc-toast" id="scToast"></div>
+</div>
+
+<div class="overlay" id="review">
+  <div class="rv-box">
+    <div class="rv-head"><h3>Sprawdź dane z wizytówki</h3><button class="sc-x dark" id="rvClose" aria-label="Zamknij">✕</button></div>
+    <div class="rv-body">
+      <div class="rv-img"><img id="rvImg" alt="Wizytówka"></div>
+      <div class="rv-fields">
+        <p class="rv-msg" id="rvMsg"></p>
+        <div class="rv-grid">
+          <label>Imię i nazwisko<input id="rvName" autocomplete="off" spellcheck="false"></label>
+          <label>Firma<input id="rvCompany" autocomplete="off" spellcheck="false"></label>
+          <label>E-mail *<input id="rvEmail" type="email" inputmode="email" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+          <label>Telefon<input id="rvPhone" type="tel" autocomplete="off"></label>
+          <label>Stanowisko<input id="rvPosition" autocomplete="off" spellcheck="false"></label>
+          <label>Notatka<input id="rvNote" autocomplete="off" spellcheck="false" placeholder="np. 20 m² ściana w salonie"></label>
+        </div>
+        <div class="rv-sub">Język maila</div>
+        <div class="sc-langs light" id="rvLangs"><button type="button" data-lang="pl">PL</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="de">DE</button></div>
+        <div class="rv-sub">Zainteresowania</div>
+        <div class="sc-chips light" id="rvChips"></div>
+        <button type="button" class="sc-consent light" id="rvConsent" aria-checked="false"><span class="box"></span><span>Klient zgodził się na kontakt e-mail (gutschein, oferty)</span></button>
+      </div>
+    </div>
+    <div class="rv-actions">
+      <button class="btn btn-ghost" id="rvRetake">Odrzuć</button>
+      <button class="btn btn-primary" id="rvSave">Zapisz i wyślij mail</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Thank you ===== -->
+<div class="overlay" id="thanks">
+  <div>
+    <div class="ring"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2 id="thxTitle">Vielen Dank!</h2>
+    <p><span id="thxTo" data-i18n="thxTo">Ihr Gutschein ist unterwegs an</span><br><span class="mail" id="thxMail"></span></p>
+    <p style="font-size:17px;color:#aaa" id="thxSpam" data-i18n="thxSpam">Bitte prüfen Sie auch Ihren Spam-Ordner.</p>
+    <a class="btn" id="thxShop" href="https://starecegly.com/?utm_source=targi&amp;utm_medium=qr" target="_blank" rel="noopener" data-i18n="thxShop" style="display:none">Zum Onlineshop</a>
+    <button class="btn" id="thxDone" data-i18n="thxDone">Fertig</button>
+    <div class="count" id="thxCount"></div>
+  </div>
+</div>
+
+<!-- ===== QR: formularz wyłączony ===== -->
+<div class="overlay" id="qrOff">
+  <div class="qroff">
+    <img src="/logo.png" alt="Starecegly.com">
+    <h2 data-i18n="qrOffH">Die Anmeldung ist gerade nicht aktiv.</h2>
+    <p data-i18n="qrOffP">Sprechen Sie uns gerne direkt an unserem Stand an – oder besuchen Sie unseren Onlineshop.</p>
+    <a class="btn btn-primary" href="https://starecegly.com/?utm_source=targi&amp;utm_medium=qr" data-i18n="thxShop">Zum Onlineshop</a>
+  </div>
+</div>
+
+<!-- ===== PIN ===== -->
+<div class="overlay" id="pin">
+  <div class="pinbox">
+    <h3>Panel administracyjny</h3>
+    <p class="hint" id="pinHint">Wpisz PIN</p>
+    <div class="dots" id="pinDots"></div>
+    <div class="keys" id="pinKeys"></div>
+  </div>
+</div>
+
+<!-- ===== Setup (PL, first run) ===== -->
+<div class="overlay" id="setup">
+  <div class="setupbox">
+    <h3>Konfiguracja tabletu</h3>
+    <p>Jednorazowo: wpisz klucz kiosku (zmienna <b>KIOSK_KEY</b> z Vercela) i nazwę targów. Nazwa trafi do maila powitalnego i do eksportu.</p>
+    <div class="field"><label for="setKey">Klucz kiosku</label><input class="input" id="setKey" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+    <div class="field"><label for="setEvent">Nazwa targów <small>(np. Facade Expo 2026)</small></label><input class="input" id="setEvent" type="text" autocomplete="off" spellcheck="false"></div>
+    <div class="diag" id="setupDiag"></div>
+    <p class="msg" id="setupMsg" style="margin-top:12px"></p>
+    <button class="btn btn-primary" id="setupSave" style="width:100%">Zapisz i uruchom</button>
+  </div>
+</div>
+
+<!-- ===== Admin (PL) ===== -->
+<div class="overlay" id="admin">
+  <div class="ad-head">
+    <div class="logo"><img src="/logo.png" alt="Starecegly.com"></div>
+    <h3>Panel targowy · <span id="adEvent"></span></h3>
+    <div class="ad-tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-view="vLeads">Zgłoszenia</button>
+      <button role="tab" aria-selected="false" data-view="vScan">Skaner</button>
+      <button role="tab" aria-selected="false" data-view="vMkt">Marketing</button>
+      <button role="tab" aria-selected="false" data-view="vSettings">Ustawienia</button>
+    </div>
+    <button class="ad-close" id="adClose">Wróć do formularza</button>
+  </div>
+  <div class="ad-body">
+
+    <!-- ===== Zgłoszenia ===== -->
+    <section class="view active" id="vLeads">
+      <div class="stats">
+        <div class="stat"><b id="stTotal">0</b><span>Wszystkich zapisów</span></div>
+        <div class="stat"><b id="stToday">0</b><span>Dzisiaj</span></div>
+        <div class="stat"><b id="stMail">0</b><span>Maili wysłanych</span></div>
+        <div class="stat"><b id="stErr">0</b><span>Maili z błędem / czeka</span></div>
+      </div>
+      <div class="toolbar">
+        <input id="adSearch" type="search" placeholder="Szukaj: imię, e-mail, telefon…" autocomplete="off">
+        <button class="btn btn-ghost" id="adSync">Odśwież</button>
+        <button class="btn btn-warn" id="adResendAll" style="display:none">Wyślij ponownie błędne</button>
+        <button class="btn btn-primary" id="adXlsx">Excel (.xlsx)</button>
+        <button class="btn btn-primary" id="adPdf">PDF</button>
+        <button class="btn btn-ghost" id="adCsv">CSV</button>
+      </div>
+      <p class="msg" id="adMsg"></p>
+      <table class="leads">
+        <colgroup><col style="width:12%"><col style="width:14%"><col style="width:17%"><col style="width:12%"><col style="width:11%"><col style="width:14%"><col style="width:9%"><col style="width:11%"></colgroup>
+        <thead><tr><th>Data</th><th>Imię i nazwisko</th><th>E-mail</th><th>Telefon</th><th>Typ</th><th>Zainteresowania</th><th>Notatka</th><th>Mail</th></tr></thead>
+        <tbody id="adRows"></tbody>
+      </table>
+    </section>
+
+    <!-- ===== Ustawienia ===== -->
+    <section class="view" id="vScan">
+      <div class="card">
+        <h4>Skaner wizytówek</h4>
+        <p>Zrób zdjęcie wizytówki – AI odczyta dane, zapisze kontakt i wyśle mail powitalny z kodem rabatowym. Bez internetu zdjęcia czekają w kolejce i zostaną odczytane automatycznie po powrocie sieci.</p>
+        <button class="btn btn-primary" id="scStart" style="width:100%"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/></svg> Uruchom skaner</button>
+        <div class="set-row" style="margin-top:10px"><div class="lbl">Zapisuj od razu, bez sprawdzania<small>Gdy AI odczyta poprawny e-mail. Wyłączone = przed zapisem zobaczysz dane i możesz je poprawić.</small></div><button class="switch" role="switch" data-set="scanAutoSave" aria-checked="false"></button></div>
+        <div class="set-row"><div class="lbl">Przycisk „Visitenkarte scannen” w formularzu<small>Klient może sam zeskanować swoją wizytówkę zamiast pisać</small></div><button class="switch" role="switch" data-set="scanInForm" aria-checked="true"></button></div>
+        <div class="diag" id="scQueueInfo"></div>
+      </div>
+      <div class="card">
+        <h4>Zgoda klienta</h4>
+        <p style="margin:0">W Niemczech mail reklamowy wymaga zgody. Przed zdjęciem zapytaj klienta, czy możemy wysłać mu kod rabatowy i oferty, i zaznacz zgodę w skanerze. Bez zaznaczenia kontakt nie zostanie zapisany.</p>
+      </div>
+    </section>
+
+    <section class="view" id="vMkt">
+      <p class="msg" id="mkMsg"></p>
+      <div class="card">
+        <h4>Kod QR dla odwiedzających</h4>
+        <p>Odwiedzający skanuje kod telefonem i zapisuje się sam – bez kolejki do tabletu. Formularz startuje po polsku – gość może przełączyć na EN / DE, mail idzie w wybranym języku.</p>
+        <div class="set-row"><div class="lbl">Formularz QR aktywny<small>Wyłącz po targach – kod na plakacie pokaże wtedy komunikat „Zapisy nieaktywne”.</small></div><button class="switch" role="switch" id="qrEnabled" aria-checked="false"></button></div>
+        <div class="set-row"><div class="lbl">Nazwa targów dla zapisów z QR<small>Trafia do maila („…na naszym stoisku na targach …”) i eksportu</small></div><input type="text" id="qrEvent" autocomplete="off" spellcheck="false" placeholder="np. Facade Expo 2026"></div>
+        <div class="qr-wrap">
+          <canvas id="qrCanvas" width="600" height="600" aria-label="Kod QR"></canvas>
+          <div class="qr-side">
+            <div class="qr-url" id="qrUrl"></div>
+            <button class="btn btn-primary" id="qrPoster">Plakat A4 (PDF)</button>
+            <button class="btn btn-ghost" id="qrPng">Sam kod QR (PNG)</button>
+            <button class="btn btn-ghost" id="qrCopy">Kopiuj link</button>
+            <div class="qr-stat" id="qrStat"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4>Mail przypominający</h4>
+        <p>Jeden mail kilka dni po powitaniu – przypomina o kodzie rabatowym, w języku klienta. Wysyłany automatycznie raz dziennie (ok. 9:00). Pomija osoby oznaczone „Bez przypomnienia” (np. już kupiły albo się wypisały) i adresy, które dostały je wcześniej.</p>
+        <div class="set-row"><div class="lbl">Wysyłaj przypomnienia</div><button class="switch" role="switch" id="remEnabled" aria-checked="false"></button></div>
+        <div class="set-row"><div class="lbl">Ile dni po mailu powitalnym</div>
+          <div class="opts" id="remDays"><button data-v="3">3</button><button data-v="5">5</button><button data-v="7">7</button><button data-v="10">10</button><button data-v="14">14</button></div></div>
+        <div class="diag" id="remStat"></div>
+        <div class="set-row"><div class="lbl">Wyślij zaległe teraz<small>To samo, co robi codzienne wysyłanie – tylko od razu</small></div><button class="btn btn-ghost" id="remRun" style="height:44px;font-size:15px">Wyślij teraz</button></div>
+      </div>
+
+      <div class="card">
+        <h4>Mail testowy</h4>
+        <p>Wyślij sobie podgląd maila w wybranym języku (temat z dopiskiem [TEST]). Nic nie zapisuje się w bazie.</p>
+        <div class="set-row"><div class="lbl">Adres e-mail</div><input type="text" id="tmEmail" inputmode="email" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="twoj@adres.pl"></div>
+        <div class="set-row"><div class="lbl">Język</div><div class="opts" id="tmLang"><button data-v="pl" aria-pressed="true">PL</button><button data-v="en">EN</button><button data-v="de">DE</button></div></div>
+        <div class="set-row"><div class="lbl">Wyślij</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost" id="tmWelcome" style="height:44px;font-size:15px">Powitanie</button><button class="btn btn-ghost" id="tmReminder" style="height:44px;font-size:15px">Przypomnienie</button></div></div>
+      </div>
+    </section>
+
+    <section class="view" id="vSettings">
+      <div class="card">
+        <h4>Targi i połączenie</h4>
+        <p>Zmiany zapisują się od razu na tym urządzeniu.</p>
+        <div class="set-row"><div class="lbl">Nazwa targów<small>Trafia do maila powitalnego i eksportu</small></div><input type="text" id="sEvent" autocomplete="off" spellcheck="false" placeholder="np. Facade Expo 2026"></div>
+        <div class="set-row"><div class="lbl">Klucz kiosku<small>Musi być taki sam jak KIOSK_KEY w Vercelu</small></div><input type="text" id="sKey" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+        <div class="set-row"><div class="lbl">Test połączenia<small>Sprawdza bazę i serwer poczty (nie wysyła maila)</small></div><button class="btn btn-ghost" id="sTest" style="height:44px;font-size:15px">Testuj połączenie</button></div>
+        <div class="diag" id="sDiag"></div>
+      </div>
+
+      <div class="card">
+        <h4>Ekran</h4>
+        <p>Dopasuj wygląd do tabletu, telefonu lub monitora dotykowego.</p>
+        <div class="set-row"><div class="lbl">Wielkość interfejsu</div>
+          <div class="opts" data-set="uiScale"><button data-v="0.85">Mała</button><button data-v="1">Normalna</button><button data-v="1.15">Duża</button><button data-v="1.3">B. duża</button></div></div>
+        <div class="set-row"><div class="lbl">Orientacja<small>Blokada działa w trybie pełnoekranowym (Android). Na iPadzie ustaw blokadę obrotu w systemie.</small></div>
+          <div class="opts" data-set="orientation"><button data-v="auto">Auto</button><button data-v="landscape">Pozioma</button><button data-v="portrait">Pionowa</button></div></div>
+        <div class="set-row"><div class="lbl">Pełny ekran po dotknięciu<small>Pierwsze dotknięcie ekranu włącza tryb pełnoekranowy</small></div><button class="switch" role="switch" data-set="autoFullscreen" aria-checked="false"></button></div>
+        <div class="set-row"><div class="lbl">Nie wygaszaj ekranu<small>Ekran nie gaśnie, gdy aplikacja jest otwarta</small></div><button class="switch" role="switch" data-set="keepAwake" aria-checked="true"></button></div>
+        <div class="set-row"><div class="lbl">Tryb pełnoekranowy</div><button class="btn btn-ghost" id="sFull" style="height:44px;font-size:15px">Włącz teraz</button></div>
+      </div>
+
+      <div class="card">
+        <h4>Formularz</h4>
+        <p>Zachowanie formularza dla klientów.</p>
+        <div class="set-row"><div class="lbl">Telefon obowiązkowy</div><button class="switch" role="switch" data-set="requirePhone" aria-checked="true"></button></div>
+        <div class="set-row"><div class="lbl">Reset po bezczynności<small>Czyści niedokończony formularz</small></div>
+          <div class="opts" data-set="idleResetSec"><button data-v="60">60 s</button><button data-v="90">90 s</button><button data-v="180">3 min</button></div></div>
+        <div class="set-row"><div class="lbl">Ekran „Danke”</div>
+          <div class="opts" data-set="thanksSec"><button data-v="5">5 s</button><button data-v="10">10 s</button><button data-v="20">20 s</button></div></div>
+        <div class="set-row"><div class="lbl">Język startowy formularza<small>Po każdym zapisie formularz wraca do tego języka</small></div>
+          <div class="opts" data-set="defaultLang"><button data-v="pl">PL</button><button data-v="en">EN</button><button data-v="de">DE</button></div></div>
+      </div>
+
+      <div class="card">
+        <h4>Dane na tym urządzeniu</h4>
+        <p>Zgłoszenia są też zapisane w bazie. Lokalna kopia służy do pracy bez internetu.</p>
+        <div class="set-row"><div class="lbl">Wyczyść lokalną kopię<small id="sLocalInfo"></small></div><button class="btn btn-ghost" id="sClear" style="height:44px;font-size:15px;color:var(--err)">Wyczyść</button></div>
+      </div>
+      <p class="saved" id="sSaved"></p>
+    </section>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   KONFIGURACJA (domyślne – zmieniasz w panelu: Ustawienia)
+   ===================================================================== */
+const DEFAULTS = {
+  discountPercent: 5,      // tylko do wyświetlania – kod ustawiasz w Vercel (DISCOUNT_CODE)
+  requirePhone: true,
+  idleResetSec: 90,
+  thanksSec: 10,
+  uiScale: 1,
+  orientation: 'auto',
+  autoFullscreen: false,
+  keepAwake: true,
+  syncEverySec: 30,
+  longPressMs: 2500,
+  scanAutoSave: false,     // skaner: zapis bez sprawdzania danych
+  scanInForm: true,        // przycisk „Visitenkarte scannen” w formularzu
+  defaultLang: 'pl'        // język startowy formularza na tablecie
+};
+
+const INTERESTS = [
+  { id:'rozbiorka', label:'Płytki z cegły rozbiórkowej' },
+  { id:'elewacja',  label:'Płytki elewacyjne' },
+  { id:'long',      label:'Płytki elewacyjne LONG' },
+  { id:'klinkier',  label:'Płytki z cegły klinkierowej' },
+  { id:'modern',    label:'Dekoracyjne płytki ceglane' },
+  { id:'narozniki', label:'Płytki narożne' },
+  { id:'podloga',   label:'Płytki podłogowe i tarasowe' },
+  { id:'pelna',     label:'Cegła rozbiórkowa pełna' },
+  { id:'drewno',    label:'Deski i belki drewniane' },
+  { id:'beton',     label:'Beton architektoniczny' },
+  { id:'akcesoria', label:'Akcesoria montażowe' },
+  { id:'probki',    label:'Próbki' }
+];
+const CTYPES = { privat:'Klient prywatny', handwerk:'Wykonawca / firma budowlana', planer:'Architekt / projektant', handel:'Sprzedawca / hurtownia' };
+const CONSENT_TEXT = 'Wyrażam zgodę na przetwarzanie moich danych przez Stare Cegły Sp. z o.o. (ul. Polna 65, 87-100 Toruń) oraz na przesyłanie mi e-mailem kuponu rabatowego i informacji handlowych o produktach i ofertach Starecegly.com. Zgodę mogę w każdej chwili wycofać (np. odpowiadając na e-mail). Szczegóły w polityce prywatności na starecegly.com.';
+
+/* =====================================================================
+   STORAGE
+   ===================================================================== */
+const LS = { leads:'sc_targi_leads_v1', settings:'sc_targi_settings_v1', pin:'sc_targi_pinhash_v1' };
+const load = (k,d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v ?? d; } catch { return d; } };
+const save = (k,v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e){ console.error(e); alert('Pamięć urządzenia pełna – zrób eksport CSV!'); return false; } };
+const settings = () => load(LS.settings, {});
+const cfg = () => ({ ...DEFAULTS, ...settings() });
+const setSetting = (k, v) => save(LS.settings, { ...settings(), [k]: v });
+const getLeads = () => load(LS.leads, []);
+function patchLead(id, patch){ const all = getLeads(); const l = all.find(x => x.id === id); if (l){ Object.assign(l, patch); save(LS.leads, all); } }
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : 'id-' + Date.now().toString(36) + Math.random().toString(36).slice(2));
+
+/* =====================================================================
+   SCREEN (skala, orientacja, pełny ekran, wybudzanie)
+   ===================================================================== */
+function applyScreen(){
+  const c = cfg();
+  document.documentElement.style.setProperty('--z', String(c.uiScale || 1));
+  lockOrientation();
+  if (c.keepAwake) keepAwake(); else releaseWake();
+}
+function isFullscreen(){ return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+function enterFullscreen(){
+  const el = document.documentElement;
+  const fn = el.requestFullscreen || el.webkitRequestFullscreen;
+  if (fn && !isFullscreen()) { try { const p = fn.call(el); if (p && p.then) p.then(lockOrientation).catch(()=>{}); } catch {} }
+}
+function exitFullscreen(){ const fn = document.exitFullscreen || document.webkitExitFullscreen; if (fn && isFullscreen()) try { fn.call(document); } catch {} }
+function lockOrientation(){
+  const o = cfg().orientation;
+  try {
+    if (!screen.orientation) return;
+    if (o === 'auto') { screen.orientation.unlock && screen.orientation.unlock(); return; }
+    if (isFullscreen() && screen.orientation.lock) screen.orientation.lock(o).catch(()=>{});
+  } catch {}
+}
+document.addEventListener('fullscreenchange', () => { lockOrientation(); updateFullBtn(); });
+document.addEventListener('webkitfullscreenchange', () => { lockOrientation(); updateFullBtn(); });
+
+let wakeLock = null;
+async function keepAwake(){ if (!cfg().keepAwake) return; try { if ('wakeLock' in navigator && !wakeLock){ wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => wakeLock = null); } } catch {} }
+function releaseWake(){ try { wakeLock && wakeLock.release(); } catch {} wakeLock = null; }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') keepAwake(); });
+
+// pierwsze dotknięcie → pełny ekran (jeśli włączone); poza panelem admina
+document.addEventListener('pointerdown', e => {
+  if (cfg().autoFullscreen && !isFullscreen() && !e.target.closest('#admin,#pin,#setup')) enterFullscreen();
+}, true);
+
+/* =====================================================================
+   FORM
+   ===================================================================== */
+/* Tryb QR: formularz na telefonie odwiedzającego (adres z ?qr) */
+const QR_MODE = new URLSearchParams(location.search).has('qr');
+document.body.classList.toggle('qrmode', QR_MODE);
+
+/* =====================================================================
+   JĘZYKI FORMULARZA (DE / EN / PL) – panel admina zostaje po polsku
+   ===================================================================== */
+const I18N = {
+  pl: {
+    h1:'Miło, że jesteś <br>na naszym stoisku!', lead:'Zapisz się w 30 sekund – wyślemy Ci e-mailem osobisty kupon targowy na pierwsze zamówienie.',
+    badge:'rabatu na pierwsze <br>zamówienie', usp1:'Płytki z prawdziwej cegły – na ścianę i elewację', usp2:'Akcesoria montażowe w komplecie', usp3:'5 lat gwarancji · wysyłka w całej Polsce i UE',
+    step:'Krok {n} z 2', s1h:'Twoje dane kontaktowe', s1sub:'Abyśmy mogli wysłać Ci kupon rabatowy.',
+    scanB:'Zeskanuj wizytówkę', scanS:'Dane wpiszą się same – bez pisania', scanNote:'Dane pobrane z wizytówki – sprawdź je, proszę.',
+    nameL:'Imię i nazwisko', nameP:'Jan Kowalski', nameE:'Podaj imię i nazwisko.',
+    emailL:'Adres e-mail', emailP:'jan@przyklad.pl', emailE:'Podaj poprawny adres e-mail.', suggest:'Czy chodziło o',
+    phoneL:'Telefon', phoneP:'+48 600 123 456', phoneE:'Podaj poprawny numer telefonu.', optional:'(opcjonalnie)',
+    ctypeL:'Jesteś', ct_privat:'Klient prywatny', ct_handwerk:'Wykonawca / firma budowlana', ct_planer:'Architekt / projektant', ct_handel:'Sprzedawca / hurtownia',
+    next:'Dalej', s2h:'Co Cię interesuje?', s2sub:'Możesz wybrać kilka – wyślemy Ci dopasowane informacje.',
+    noteL:'Twój projekt', noteP:'np. elewacja domu ok. 120 m², ściana w salonie, taras …',
+    consentErr:'Potwierdź zgodę.', back:'Wstecz', submit:'Zapisz się i odbierz kupon', sending:'Wysyłam…',
+    privacy:'Polityka prywatności', imprint:'Kontakt',
+    thx:'Dziękujemy, {name}!', thx0:'Dziękujemy!', thxTo:'Kupon jest już w drodze na adres', thxSpam:'Sprawdź też folder SPAM i „Oferty”.',
+    thxDone:'Gotowe', thxCount:'Nowy formularz za {s} s', thxShop:'Przejdź do sklepu',
+    thxDup:'Jesteś już zapisany(-a) – kupon wysłaliśmy wcześniej na adres', thxQueued:'Zapis jest zapisany i zostanie wysłany, gdy telefon znów będzie online. Zostaw tę stronę otwartą jeszcze chwilę.',
+    qrOffH:'Zapisy są w tej chwili nieaktywne.', qrOffP:'Zapraszamy do rozmowy na naszym stoisku – albo do naszego sklepu internetowego.',
+    errRate:'Zbyt wiele zapisów z tego urządzenia. Spróbuj ponownie później.', errSend:'Nie udało się wysłać. Spróbuj ponownie.',
+    pct:p => `${p}%`,
+    consent:'Wyrażam zgodę na przetwarzanie moich danych przez Stare Cegły Sp. z o.o. (ul. Polna 65, 87-100 Toruń) oraz na przesyłanie mi e-mailem kuponu rabatowego i informacji handlowych o produktach i ofertach Starecegly.com. Zgodę mogę w każdej chwili wycofać (np. odpowiadając na e-mail). Szczegóły w polityce prywatności na starecegly.com.',
+    interests:{ rozbiorka:'Płytki z cegły rozbiórkowej', elewacja:'Płytki elewacyjne', long:'Płytki elewacyjne LONG', klinkier:'Płytki z cegły klinkierowej', modern:'Dekoracyjne płytki ceglane', narozniki:'Płytki narożne', podloga:'Płytki podłogowe i tarasowe', pelna:'Cegła rozbiórkowa pełna', drewno:'Deski i belki drewniane', beton:'Beton architektoniczny', akcesoria:'Akcesoria montażowe', probki:'Próbki' },
+    sc:{ title:'Zeskanuj wizytówkę', hint:'Umieść wizytówkę w ramce i zrób zdjęcie', file:'Aparat / zdjęcie', busy:'Odczytuję wizytówkę…',
+         noCam:'Kamera niedostępna – użyj „Aparat / zdjęcie”.', offline:'Skanowanie wymaga internetu. Wpisz dane ręcznie.',
+         fail:'Nie udało się odczytać wizytówki. Spróbuj ponownie albo wpisz dane.', notConf:'Skanowanie jest teraz niedostępne. Wpisz dane ręcznie.', close:'Zamknij' }
+  },
+  en: {
+    h1:'Great to have <br>you at our stand!', lead:'Sign up in 30 seconds – we’ll email you a personal trade fair voucher for your first order.',
+    badge:'off your <br>first order', usp1:'Genuine brick tiles – for walls and facades', usp2:'Matching installation accessories', usp3:'5-year warranty · delivery across Poland & the EU',
+    step:'Step {n} of 2', s1h:'Your contact details', s1sub:'So we can send you your voucher.',
+    scanB:'Scan business card', scanS:'Fill in your details automatically – no typing', scanNote:'Details taken from your business card – please check them.',
+    nameL:'First and last name', nameP:'John Smith', nameE:'Please enter your name.',
+    emailL:'Email address', emailP:'john@example.com', emailE:'Please enter a valid email address.', suggest:'Did you mean',
+    phoneL:'Phone', phoneP:'+48 600 123 456', phoneE:'Please enter a valid phone number.', optional:'(optional)',
+    ctypeL:'You are', ct_privat:'Private customer', ct_handwerk:'Contractor / builder', ct_planer:'Architect / designer', ct_handel:'Retailer / wholesaler',
+    next:'Next', s2h:'What are you interested in?', s2sub:'Choose as many as you like – we’ll send you matching information.',
+    noteL:'Your project', noteP:'e.g. house facade approx. 120 m², living room wall, terrace …',
+    consentErr:'Please confirm your consent.', back:'Back', submit:'Sign up & get voucher', sending:'Sending…',
+    privacy:'Privacy policy', imprint:'Contact',
+    thx:'Thank you, {name}!', thx0:'Thank you!', thxTo:'Your voucher is on its way to', thxSpam:'Please also check your spam folder.',
+    thxDone:'Done', thxCount:'New form in {s} s', thxShop:'Visit our online shop',
+    thxDup:'You are already signed up – we have already sent your voucher to', thxQueued:'Your sign-up is saved and will be sent as soon as your phone is back online. Please keep this page open for a moment.',
+    qrOffH:'Sign-up is not active right now.', qrOffP:'Feel free to talk to us directly at our stand – or visit our online shop.',
+    errRate:'Too many sign-ups from this device. Please try again later.', errSend:'Sending failed. Please try again.',
+    pct:p => `${p}%`,
+    consent:'I agree that Stare Cegły Sp. z o.o. (ul. Polna 65, 87-100 Toruń, Poland) may process my details and send me my voucher as well as commercial information about Starecegly.com products and offers by email. I can withdraw my consent at any time (e.g. by replying to an email). Details in the privacy policy at starecegly.com.',
+    interests:{ rozbiorka:'Reclaimed brick tiles', elewacja:'Facade brick tiles', long:'LONG facade tiles', klinkier:'Clinker brick tiles', modern:'Decorative brick tiles', narozniki:'Corner tiles', podloga:'Floor & terrace tiles', pelna:'Reclaimed solid bricks', drewno:'Wooden boards & beams', beton:'Architectural concrete', akcesoria:'Installation accessories', probki:'Samples' },
+    sc:{ title:'Scan business card', hint:'Hold the business card inside the frame and take the photo', file:'Camera app / photo', busy:'Reading business card…',
+         noCam:'Camera not available – please use “Camera app / photo”.', offline:'Scanning needs an internet connection. Please type in your details.',
+         fail:'The card could not be read. Please try again or type in your details.', notConf:'Scanning is not available right now. Please type in your details.', close:'Close' }
+  },
+  de: {
+    h1:'Schön, dass Sie <br>bei uns sind!', lead:'Melden Sie sich in 30 Sekunden an – wir schicken Ihnen Ihren persönlichen Messe-Gutschein per E-Mail.',
+    badge:'Rabatt auf Ihre <br>erste Bestellung', usp1:'Echte Ziegelriemchen – für Wand und Fassade', usp2:'Passendes Montagezubehör im Set', usp3:'5 Jahre Garantie · Lieferung in Polen & in die EU',
+    step:'Schritt {n} von 2', s1h:'Ihre Kontaktdaten', s1sub:'Damit wir Ihnen den Gutschein zusenden können.',
+    scanB:'Visitenkarte scannen', scanS:'Daten automatisch übernehmen – statt tippen', scanNote:'Daten von der Visitenkarte übernommen – bitte kurz prüfen.',
+    nameL:'Vor- und Nachname', nameP:'Max Mustermann', nameE:'Bitte geben Sie Ihren Namen ein.',
+    emailL:'E-Mail-Adresse', emailP:'max@beispiel.de', emailE:'Bitte geben Sie eine gültige E-Mail-Adresse ein.', suggest:'Meinten Sie',
+    phoneL:'Telefon', phoneP:'+49 170 1234567', phoneE:'Bitte geben Sie eine gültige Telefonnummer ein.', optional:'(optional)',
+    ctypeL:'Sie sind', ct_privat:'Privatkunde', ct_handwerk:'Handwerker / Bauunternehmen', ct_planer:'Architekt / Planer', ct_handel:'Händler',
+    next:'Weiter', s2h:'Wofür interessieren Sie sich?', s2sub:'Mehrfachauswahl möglich – wir schicken Ihnen passende Infos.',
+    noteL:'Ihr Projekt', noteP:'z. B. Hausfassade ca. 120 m², Wohnzimmerwand, Terrasse …',
+    consentErr:'Bitte bestätigen Sie die Einwilligung.', back:'Zurück', submit:'Anmelden & Gutschein sichern', sending:'Wird gesendet…',
+    privacy:'Datenschutz', imprint:'Kontakt',
+    thx:'Vielen Dank, {name}!', thx0:'Vielen Dank!', thxTo:'Ihr Gutschein ist unterwegs an', thxSpam:'Bitte prüfen Sie auch Ihren Spam-Ordner.',
+    thxDone:'Fertig', thxCount:'Neues Formular in {s} s', thxShop:'Zum Onlineshop',
+    thxDup:'Sie sind bereits angemeldet – Ihren Gutschein haben wir Ihnen schon geschickt an', thxQueued:'Ihre Anmeldung ist gespeichert und wird gesendet, sobald Ihr Telefon wieder online ist. Bitte lassen Sie diese Seite kurz geöffnet.',
+    qrOffH:'Die Anmeldung ist gerade nicht aktiv.', qrOffP:'Sprechen Sie uns gerne direkt an unserem Stand an – oder besuchen Sie unseren Onlineshop.',
+    errRate:'Zu viele Anmeldungen von diesem Gerät. Bitte versuchen Sie es später erneut.', errSend:'Das Senden hat nicht geklappt. Bitte versuchen Sie es erneut.',
+    pct:p => `${p} %`,
+    consent:'Ich willige ein, dass die Stare Cegły Sp. z o.o. (ul. Polna 65, 87-100 Toruń, Polen) meine Angaben verarbeitet und mir per E-Mail meinen Gutschein sowie Informationen zu Produkten und Angeboten von Starecegly.com zusendet. Die Einwilligung kann ich jederzeit widerrufen (z. B. per Antwort auf eine E-Mail). Details in der Datenschutzerklärung auf starecegly.com.',
+    interests:{ rozbiorka:'Riemchen aus Abbruchziegeln', elewacja:'Fassadenriemchen', long:'Fassadenriemchen LONG', klinkier:'Klinkerriemchen', modern:'Dekorative Ziegelriemchen', narozniki:'Eckriemchen', podloga:'Boden- & Terrassenfliesen', pelna:'Abbruch-Vollziegel', drewno:'Holzbretter & Holzbalken', beton:'Architektonischer Beton', akcesoria:'Montagezubehör', probki:'Muster' },
+    sc:{ title:'Visitenkarte scannen', hint:'Visitenkarte in den Rahmen halten und auslösen', file:'Kamera-App / Foto', busy:'Visitenkarte wird gelesen…',
+         noCam:'Kamera nicht verfügbar – bitte „Kamera-App / Foto“ nutzen.', offline:'Zum Scannen wird Internet benötigt. Bitte tippen Sie Ihre Daten ein.',
+         fail:'Die Karte konnte nicht gelesen werden. Bitte erneut versuchen oder eintippen.', notConf:'Scannen ist gerade nicht verfügbar. Bitte tippen Sie Ihre Daten ein.', close:'Schließen' }
+  }
+};
+const LANGS = ['pl', 'en', 'de'];
+let LANG = 'pl';
+const tr = (k, vars) => { let s = (I18N[LANG] && I18N[LANG][k] != null) ? I18N[LANG][k] : I18N.pl[k]; if (vars && typeof s === 'string') for (const [a, b] of Object.entries(vars)) s = s.replace('{' + a + '}', b); return s; };
+const pctText = () => I18N[LANG].pct(DEFAULTS.discountPercent);
+
+function applyLang(l){
+  LANG = LANGS.includes(l) ? l : 'pl';
+  document.documentElement.lang = LANG;
+  $$('[data-i18n]').forEach(el => el.textContent = tr(el.dataset.i18n));
+  $$('[data-i18n-html]').forEach(el => el.innerHTML = tr(el.dataset.i18nHtml));
+  $$('[data-i18n-ph]').forEach(el => el.placeholder = tr(el.dataset.i18nPh));
+  $$('[data-i18n-aria]').forEach(el => el.setAttribute('aria-label', tr(el.dataset.i18nAria)));
+  $('#phone').placeholder = tr('phoneP');
+  $$('#langs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === LANG)));
+  $('#consentText').textContent = tr('consent');
+  $('#pctBadge').textContent = pctText();
+  $('#pctBtn').textContent = '−' + pctText();
+  $$('#tiles .tile').forEach(b => b.textContent = I18N[LANG].interests[b.dataset.v] || b.textContent);
+  const st = document.querySelector('.step.active'); if (st) $('#stepLabel').textContent = tr('step', { n: st.dataset.step });
+  applyFormSettings();
+}
+$('#langs').addEventListener('click', e => { const b = e.target.closest('button[data-lang]'); if (b) applyLang(b.dataset.lang); });
+const defaultLang = () => {
+  if (QR_MODE) return 'pl';   // formularz z kodu QR zawsze startuje po polsku (gość może przełączyć)
+  return LANGS.includes(cfg().defaultLang) ? cfg().defaultLang : 'pl';
+};
+
+function applyFormSettings(){ $('#phoneOpt').textContent = cfg().requirePhone ? '' : tr('optional'); $('#scanForm').classList.toggle('hide', QR_MODE || !cfg().scanInForm); }
+
+$('#tiles').innerHTML = INTERESTS.map(i => `<button type="button" class="tile" data-v="${i.id}" aria-pressed="false">${esc(I18N[LANG].interests[i.id] || i.label)}</button>`).join('');
+$('#tiles').addEventListener('click', e => { const t = e.target.closest('.tile'); if (t) t.setAttribute('aria-pressed', t.getAttribute('aria-pressed') !== 'true'); });
+$('#ctype').addEventListener('click', e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  const on = c.getAttribute('aria-pressed') === 'true';
+  $$('#ctype .chip').forEach(x => x.setAttribute('aria-pressed','false'));
+  c.setAttribute('aria-pressed', String(!on));
+});
+const consentEl = $('#consent');
+const toggleConsent = () => { consentEl.setAttribute('aria-checked', consentEl.getAttribute('aria-checked') !== 'true'); consentEl.classList.remove('invalid'); $('#consentErr').style.display='none'; };
+consentEl.addEventListener('click', toggleConsent);
+consentEl.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); toggleConsent(); } });
+$('#consentErr').style.display = 'none';
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const val = id => $('#' + id).value.trim();
+function setInvalid(name, bad){ document.querySelector(`.field[data-f="${name}"]`).classList.toggle('invalid', bad); }
+function validateStep1(){
+  const name = val('name'), email = val('email'), phone = val('phone');
+  const digits = phone.replace(/\D/g,'').length;
+  const badName = name.length < 2;
+  const badEmail = !EMAIL_RE.test(email);
+  const badPhone = cfg().requirePhone ? digits < 6 : (phone && digits < 6);
+  setInvalid('name', badName); setInvalid('email', badEmail); setInvalid('phone', !!badPhone);
+  const first = badName ? 'name' : badEmail ? 'email' : badPhone ? 'phone' : null;
+  if (first) $('#' + first).focus();
+  return !first;
+}
+['name','email','phone'].forEach(id => $('#' + id).addEventListener('input', () => setInvalid(id, false)));
+$('#name').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); $('#email').focus(); } });
+$('#email').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); $('#phone').focus(); } });
+$('#phone').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); $('#phone').blur(); } });
+
+/* --- e-mail typo suggestion --- */
+const DOMAINS = ['gmail.com','googlemail.com','gmx.de','gmx.net','gmx.at','web.de','t-online.de','outlook.com','outlook.de','hotmail.com','hotmail.de','live.de','yahoo.com','yahoo.de','icloud.com','me.com','freenet.de','aol.com','posteo.de','mail.de','aon.at','arcor.de','online.de','vodafone.de'];
+function lev(a,b){ const m=a.length,n=b.length; if(Math.abs(m-n)>2) return 9; const d=Array.from({length:m+1},(_,i)=>[i]); for(let j=1;j<=n;j++) d[0][j]=j; for(let i=1;i<=m;i++) for(let j=1;j<=n;j++) d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)); return d[m][n]; }
+function suggestEmail(){
+  const v = val('email').toLowerCase(); const at = v.lastIndexOf('@'); const box = $('#suggest');
+  if (at < 1){ box.style.display='none'; return; }
+  const dom = v.slice(at+1); if (!dom || DOMAINS.includes(dom)){ box.style.display='none'; return; }
+  let best=null, bd=3; for (const d of DOMAINS){ const x = lev(dom,d); if (x < bd){ bd = x; best = d; } }
+  if (best && bd <= 2){ $('#suggestBtn').textContent = v.slice(0,at+1) + best; box.style.display='block'; } else box.style.display='none';
+}
+$('#email').addEventListener('blur', suggestEmail);
+$('#email').addEventListener('input', () => $('#suggest').style.display='none');
+$('#suggestBtn').addEventListener('click', () => { $('#email').value = $('#suggestBtn').textContent; $('#suggest').style.display='none'; setInvalid('email', false); });
+
+/* --- steps --- */
+function goStep(n){
+  $$('.step').forEach(s => s.classList.toggle('active', s.dataset.step == n));
+  $('#stepLabel').textContent = tr('step', { n });
+  $('#stepBar').style.width = n === 1 ? '50%' : '100%';
+  $('.panel').scrollTop = 0; window.scrollTo(0,0);
+}
+$('#next').addEventListener('click', () => { suggestEmail(); if (validateStep1()){ document.activeElement.blur(); goStep(2); } });
+$('#back').addEventListener('click', () => goStep(1));
+
+function resetForm(){
+  $('#form').reset();
+  $$('.field').forEach(f => f.classList.remove('invalid'));
+  $$('.tile,.chip').forEach(t => t.setAttribute('aria-pressed','false'));
+  consentEl.setAttribute('aria-checked','false'); consentEl.classList.remove('invalid'); $('#consentErr').style.display='none';
+  $('#suggest').style.display='none';
+  scannedExtra = {}; $('#scanNote').classList.remove('show');
+  formStart = 0;
+  goStep(1);
+}
+let formStart = 0;
+$('#form').addEventListener('input', () => { if (!formStart) formStart = Date.now(); }, true);
+
+$('#form').addEventListener('submit', e => {
+  e.preventDefault();
+  if (!validateStep1()){ goStep(1); return; }
+  if (consentEl.getAttribute('aria-checked') !== 'true'){ consentEl.classList.add('invalid'); $('#consentErr').textContent = tr('consentErr'); $('#consentErr').style.display='block'; return; }
+  const s = settings();
+  const ct = $('#ctype .chip[aria-pressed="true"]');
+  const lead = {
+    id: uuid(),
+    name: val('name').replace(/\s+/g,' '),
+    email: val('email').toLowerCase(),
+    phone: val('phone'),
+    customerType: ct ? ct.dataset.v : '',
+    interests: $$('#tiles .tile[aria-pressed="true"]').map(t => t.dataset.v),
+    note: val('note'),
+    ...scannedExtra,
+    event: s.event || '',
+    consent: true,
+    consentText: tr('consent'),
+    createdAt: new Date().toISOString(),
+    lang: LANG,
+    fillMs: Date.now() - (formStart || Date.now()),
+    synced: false, mailSent: false, attempts: 0
+  };
+  if (QR_MODE){ submitPublic(lead); return; }
+  const all = getLeads(); all.push(lead); save(LS.leads, all);
+  showThanks(lead);
+  flush();
+});
+
+/* --- thanks --- */
+let thxTimer = null;
+function showThanks(lead, variant){
+  const first = (lead.name || '').split(' ')[0];
+  $('#thxTitle').textContent = first ? tr('thx', { name: first }) : tr('thx0');
+  $('#thxTo').textContent = tr(variant === 'dup' ? 'thxDup' : 'thxTo');
+  $('#thxSpam').textContent = variant === 'queued' ? tr('thxQueued') : tr('thxSpam');
+  $('#thxShop').style.display = QR_MODE ? '' : 'none';
+  $('#thxMail').textContent = lead.email;
+  $('#thanks').classList.add('show');
+  document.activeElement && document.activeElement.blur();
+  let left = cfg().thanksSec;
+  $('#thxCount').textContent = '';
+  clearInterval(thxTimer);
+  if (!QR_MODE) thxTimer = setInterval(() => { left--; $('#thxCount').textContent = left > 0 ? tr('thxCount', { s: left }) : ''; if (left <= 0) closeThanks(); }, 1000);
+  resetForm();
+}
+function closeThanks(){ clearInterval(thxTimer); $('#thanks').classList.remove('show'); if (!QR_MODE) applyLang(defaultLang()); }
+$('#thxDone').addEventListener('click', closeThanks);
+
+/* --- idle reset --- */
+let lastActivity = Date.now();
+['pointerdown','keydown','input'].forEach(ev => document.addEventListener(ev, () => { lastActivity = Date.now(); keepAwake(); }, true));
+setInterval(() => {
+  if (QR_MODE || $('#admin').classList.contains('show') || $('#setup').classList.contains('show') || $('#scanner').classList.contains('show') || $('#review').classList.contains('show')) return;
+  const dirty = val('name') || val('email') || val('phone') || val('note') || document.querySelector('.tile[aria-pressed="true"],.chip[aria-pressed="true"]') || document.querySelector('.step.active').dataset.step === '2';
+  if (dirty && Date.now() - lastActivity > cfg().idleResetSec * 1000){ resetForm(); applyLang(defaultLang()); document.activeElement && document.activeElement.blur(); }
+}, 5000);
+
+/* =====================================================================
+   SYNC (offline queue)
+   ===================================================================== */
+let flushing = false, authProblem = false;
+const MAX_ATTEMPTS = 8;
+const needsWork = l => !l.invalid && !l.needsOcr && !l.ocrFailed && (!l.synced || (!l.mailSent && (l.attempts||0) < MAX_ATTEMPTS));
+
+async function flush(){
+  const s = settings();
+  if (flushing || (!s.kioskKey && !QR_MODE) || !navigator.onLine) { renderSync(); return; }
+  flushing = true; renderSync();
+  try {
+    await ocrQueue(s);
+    for (const l of getLeads().filter(needsWork)){
+      const { synced, mailSent, attempts, invalid, error, mailError, needsOcr, ocrFailed, ocrError, ...payload } = l;
+      let r;
+      try {
+        r = QR_MODE ? await fetch('/api/public', { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) })
+                    : await fetch('/api/lead', { method:'POST', headers:{ 'Content-Type':'application/json', 'X-Kiosk-Key': s.kioskKey }, body: JSON.stringify(payload) });
+      } catch { break; }
+      if (r.status === 401){ authProblem = true; break; }
+      authProblem = false;
+      const j = await r.json().catch(() => ({}));
+      if (r.ok){ patchLead(l.id, { synced:true, mailSent:!!j.mailSent, mailError:j.mailError || null, attempts:(l.attempts||0)+1 }); }
+      else if (r.status === 400 || r.status === 403){ patchLead(l.id, { invalid:true, error:j.error || 'invalid' }); }
+      else { patchLead(l.id, { attempts:(l.attempts||0)+1 }); break; }
+    }
+  } finally { flushing = false; renderSync(); }
+}
+function renderSync(){
+  const pending = getLeads().filter(l => !l.invalid && (!l.synced || !l.mailSent)).length;
+  const dot = $('#syncDot'), txt = $('#syncText');
+  dot.className = 'sync-dot ' + (!navigator.onLine || authProblem ? 'off' : pending ? 'pending' : 'ok');
+  txt.textContent = 'starecegly.com' + (pending ? ` · ${pending}` : '') + (authProblem ? ' · key' : '');
+}
+window.addEventListener('online', flush);
+window.addEventListener('offline', renderSync);
+setInterval(flush, DEFAULTS.syncEverySec * 1000);
+
+/* =====================================================================
+   ADMIN ACCESS: long-press logo (or Ctrl+Shift+A)
+   ===================================================================== */
+let lpTimer = null;
+const logo = $('#logo');
+logo.addEventListener('pointerdown', () => { if (QR_MODE) return; clearTimeout(lpTimer); lpTimer = setTimeout(openPin, DEFAULTS.longPressMs); });
+['pointerup','pointerleave','pointercancel'].forEach(ev => logo.addEventListener(ev, () => clearTimeout(lpTimer)));
+logo.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => { if (!QR_MODE && e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') openPin(); });
+
+let pinVal = '';
+$('#pinKeys').innerHTML = ['1','2','3','4','5','6','7','8','9','✕','0','OK'].map(k => `<button type="button" data-k="${k}">${k}</button>`).join('');
+function renderPin(){ $('#pinDots').innerHTML = '<i></i>'.repeat(pinVal.length); }
+function pinHint(t, bad){ $('#pinHint').textContent = t; $('#pinHint').className = 'hint' + (bad ? ' bad' : ''); }
+function openPin(){ pinVal = ''; renderPin(); pinHint('Wpisz PIN'); $('#pin').classList.add('show'); }
+$('#pinKeys').addEventListener('click', async e => {
+  const k = e.target.closest('button')?.dataset.k; if (!k) return;
+  if (k === '✕'){ if (!pinVal) $('#pin').classList.remove('show'); pinVal = pinVal.slice(0,-1); renderPin(); return; }
+  if (k === 'OK'){ await tryPin(); return; }
+  if (pinVal.length < 12){ pinVal += k; renderPin(); }
+});
+$('#pin').addEventListener('click', e => { if (e.target.id === 'pin') $('#pin').classList.remove('show'); });
+
+async function sha(s){ const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('sc-targi:' + s)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2,'0')).join(''); }
+let adminPin = null, serverLeads = null, lastServerError = null;
+
+let srvCfg = null;
+async function adminPost(body){
+  try {
+    const r = await fetch('/api/leads', { method:'POST', headers:{ 'Content-Type':'application/json', 'X-Admin-Pin': adminPin }, body: JSON.stringify(body) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok){ setMsg(`Błąd serwera (${r.status}${j.detail ? ': ' + j.detail : ''}).`, true); return null; }
+    return j;
+  } catch { setMsg('Brak połączenia z serwerem – ta funkcja wymaga internetu.', true); return null; }
+}
+async function fetchServerLeads(pin){
+  if (!navigator.onLine) return 'offline';
+  try {
+    const r = await fetch('/api/leads', { headers:{ 'X-Admin-Pin': pin }, cache:'no-store' });
+    if (r.status === 401) return 'unauthorized';
+    if (!r.ok){ const j = await r.json().catch(() => ({})); lastServerError = `${r.status}${j.detail ? ': ' + j.detail : ''}`; return 'servererror'; }
+    const j = await r.json(); serverLeads = j.leads || []; if (j.config) srvCfg = j.config; return 'ok';
+  } catch { return 'offline'; }
+}
+
+async function tryPin(){
+  const pin = pinVal; if (!pin) return;
+  pinHint('Sprawdzam…');
+  const res = await fetchServerLeads(pin);
+  if (res === 'unauthorized'){ pinHint('Błędny PIN', true); pinVal=''; renderPin(); return; }
+  if (res !== 'ok'){
+    const h = load(LS.pin, null);
+    if (!h || h !== await sha(pin)){
+      pinHint(res === 'servererror' ? `Błąd serwera (${lastServerError}). Sprawdź Logs w Vercelu.` : (h ? 'Błędny PIN' : 'Brak internetu – pierwsze logowanie wymaga sieci'), true);
+      pinVal=''; renderPin(); return;
+    }
+    serverLeads = null;
+  } else { save(LS.pin, await sha(pin)); }
+  adminPin = pin;
+  $('#pin').classList.remove('show');
+  openAdmin(res);
+}
+
+/* =====================================================================
+   ADMIN PANEL (PL)
+   ===================================================================== */
+function setMsg(t, bad){ $('#adMsg').textContent = t; $('#adMsg').className = 'msg' + (bad ? ' bad' : ''); }
+function showView(id){
+  $$('.ad-tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.view === id)));
+  $$('.view').forEach(v => v.classList.toggle('active', v.id === id));
+  if (id === 'vSettings') renderSettings();
+  if (id === 'vScan') renderScanTab();
+  if (id === 'vMkt') renderMkt();
+  $('.ad-body').scrollTop = 0;
+}
+$$('.ad-tabs button').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
+
+function openAdmin(res){
+  $('#adEvent').textContent = settings().event || 'bez nazwy';
+  $('#admin').classList.add('show');
+  showView('vLeads');
+  if (res === 'ok') setMsg('');
+  else if (res === 'servererror') setMsg(`Błąd serwera (${lastServerError}) – pokazuję dane z tego urządzenia. Sprawdź Logs w Vercelu.`, true);
+  else setMsg('Tryb offline – widać tylko zapisy z tego urządzenia.');
+  renderAdmin();
+}
+$('#adClose').addEventListener('click', () => { $('#admin').classList.remove('show'); adminPin = null; serverLeads = null; });
+
+function mergedLeads(){
+  const map = new Map();
+  (serverLeads || []).forEach(l => map.set(l.id, { ...l, _src:'server' }));
+  getLeads().forEach(l => { if (!map.has(l.id)) map.set(l.id, { ...l, mailStatus: l.mailSent ? 'sent' : l.invalid ? 'invalid' : l.ocrFailed ? 'ocrfail' : l.needsOcr ? 'ocr' : (l.mailError ? 'error' : 'local'), _src:'local' }); });
+  return [...map.values()].sort((a,b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+}
+const fmtDate = iso => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleString('pl-PL', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' }); };
+const interestLabels = ids => (ids || []).map(id => (INTERESTS.find(i => i.id === id) || {label:id}).label);
+
+// tłumaczenie błędów poczty na ludzki język
+function mailHint(err){
+  const e = String(err || '');
+  if (/EAUTH|535|534|Invalid login|authentication|auth/i.test(e)) return 'Serwer poczty odrzucił login lub hasło. Sprawdź SMTP_USER i SMTP_PASS w Vercelu (bez spacji na końcu), potem Redeploy.';
+  if (/ETIMEDOUT|ECONNECTION|ECONNREFUSED|ESOCKET.*timeout|timeout|ENOTFOUND|EAI_AGAIN/i.test(e)) return 'Brak połączenia z serwerem poczty (SMTP_HOST / SMTP_PORT). Serwer może blokować połączenia z Vercela.';
+  if (/certificate|altnames|self.signed|CERT_|SSL|TLS/i.test(e)) return 'Problem z certyfikatem SSL serwera poczty.';
+  if (/not configured|Brak konfiguracji/i.test(e)) return 'Brak ustawień poczty w Vercelu (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS).';
+  if (/550|551|553|554|sender|relay|rejected/i.test(e)) return 'Serwer poczty odrzucił wiadomość (nadawca lub odbiorca).';
+  return '';
+}
+function statusCell(l){
+  let tag;
+  if (l.mailStatus === 'sent') tag = '<span class="tag ok">wysłany</span>';
+  else if (l.mailStatus === 'error') tag = '<span class="tag bad">błąd</span>';
+  else if (l.mailStatus === 'invalid') tag = '<span class="tag bad">odrzucony</span>';
+  else if (l.mailStatus === 'ocr') tag = '<span class="tag wait">czeka na odczyt</span>';
+  else if (l.mailStatus === 'ocrfail') tag = '<span class="tag bad">do poprawy</span>';
+  else if (l.mailStatus === 'duplicate') tag = '<span class="tag loc" title="Ten adres dostał już kupon – nie wysłano drugi raz">duplikat</span>';
+  else if (l._src === 'local') tag = '<span class="tag loc">na urządzeniu</span>';
+  else tag = '<span class="tag wait">oczekuje</span>';
+  let extra = '';
+  if (l.mailStatus === 'error' && l.mailError){ const h = mailHint(l.mailError); extra += `<span class="mailerr">${h ? `<b>${esc(h)}</b>` : ''}${esc(l.mailError)}</span>`; }
+  if (l.mailStatus === 'ocrfail') extra += `<span class="mailerr"><b>Wizytówki nie udało się odczytać automatycznie.</b>${esc(l.ocrError || '')}</span><button class="resend fixcard" data-id="${esc(l.id)}">Popraw ręcznie</button>`;
+  if (l._src === 'server' && !['sent','duplicate'].includes(l.mailStatus) && adminPin) extra += `<button class="resend" data-id="${esc(l.id)}">Wyślij ponownie</button>`;
+  if (l._src === 'server' && l.mailStatus === 'sent') extra += reminderInfo(l);
+  return tag + extra;
+}
+function reminderInfo(l){
+  const c = srvCfg, fmt = iso => iso ? new Date(iso).toLocaleDateString('pl-PL', { day:'2-digit', month:'2-digit' }) : '';
+  let t = '', btn = '';
+  if (l.reminderStatus === 'sent') t = `Przypomnienie wysłane ${fmt(l.reminderSentAt)}`;
+  else if (l.reminderOptOut){ t = 'Bez przypomnienia'; btn = `<button class="resend remtoggle" data-id="${esc(l.id)}" data-v="0">Włącz przypomnienie</button>`; }
+  else if (l.reminderStatus === 'skipped') t = 'Przypomnienie pominięte' + (l.reminderSkip === 'duplicate' ? ' (ten adres już je dostał)' : '');
+  else if (l.reminderPending){
+    const due = l.welcomeSentAt && c ? new Date(new Date(l.welcomeSentAt).getTime() + c.reminderDays * 86400000) : null;
+    t = c && !c.remindersEnabled ? 'Przypomnienia wyłączone (Marketing)' : `Przypomnienie ok. ${due ? fmt(due.toISOString()) : '—'}` + (l.reminderStatus === 'error' ? ' · ostatnio błąd' : '');
+    btn = `<button class="resend remtoggle" data-id="${esc(l.id)}" data-v="1">Bez przypomnienia</button>`;
+  }
+  return t ? `<span class="reminfo">${esc(t)}</span>${adminPin ? btn : ''}` : '';
+}
+function renderAdmin(){
+  const all = mergedLeads();
+  const q = $('#adSearch').value.trim().toLowerCase();
+  const rows = q ? all.filter(l => [l.name,l.company,l.email,l.phone,l.note].join(' ').toLowerCase().includes(q)) : all;
+  const today = new Date().toDateString();
+  const failed = all.filter(l => l._src === 'server' && !['sent','duplicate'].includes(l.mailStatus));
+  $('#stTotal').textContent = all.length;
+  $('#stToday').textContent = all.filter(l => new Date(l.createdAt).toDateString() === today).length;
+  $('#stMail').textContent = all.filter(l => l.mailStatus === 'sent').length;
+  $('#stErr').textContent = all.filter(l => !['sent','duplicate'].includes(l.mailStatus)).length;
+  $('#adResendAll').style.display = failed.length && adminPin ? '' : 'none';
+  $('#adResendAll').textContent = `Wyślij ponownie błędne (${failed.length})`;
+  $('#adRows').innerHTML = rows.map(l => `<tr>
+    <td data-l="Data">${esc(fmtDate(l.createdAt))}</td>
+    <td class="c-name" data-l="Imię i nazwisko">${esc(l.name || (l.source === 'card' ? '(wizytówka)' : ''))}${l.source === 'card' ? ' <span class="tag src">wizytówka</span>' : l.source === 'qr' ? ' <span class="tag src">QR</span>' : ''}${l.lang && l.lang !== 'de' ? ` <span class="tag loc">${esc(l.lang.toUpperCase())}</span>` : ''}${l.company ? `<small class="co">${esc(l.company)}${l.position ? ' · ' + esc(l.position) : ''}</small>` : ''}</td>
+    <td data-l="E-mail">${esc(l.email)}</td>
+    <td data-l="Telefon">${esc(l.phone)}</td>
+    <td data-l="Typ">${esc(CTYPES[l.customerType] || '')}</td>
+    <td data-l="Zainteresowania">${esc(interestLabels(l.interests).join(', '))}</td>
+    <td data-l="Notatka">${esc(l.note)}</td>
+    <td data-l="Mail"><div>${statusCell(l)}</div></td></tr>`).join('') || '<tr><td class="empty" colspan="8" style="color:#888;padding:24px">Brak zapisów.</td></tr>';
+}
+$('#adSearch').addEventListener('input', renderAdmin);
+
+async function refreshAdmin(){
+  setMsg('Odświeżam…');
+  await flush();
+  const r = adminPin ? await fetchServerLeads(adminPin) : 'offline';
+  if (r === 'ok') setMsg('Odświeżono: ' + new Date().toLocaleTimeString('pl-PL'));
+  else if (r === 'servererror') setMsg(`Błąd serwera (${lastServerError}) – sprawdź Logs w Vercelu.`, true);
+  else setMsg('Brak połączenia z serwerem – pokazuję dane z tego urządzenia.');
+  renderAdmin();
+}
+$('#adSync').addEventListener('click', refreshAdmin);
+
+async function resend(ids){
+  if (!adminPin || !ids.length) return;
+  setMsg(`Wysyłam ponownie (${ids.length})…`);
+  try {
+    const r = await fetch('/api/leads', { method:'POST', headers:{ 'Content-Type':'application/json', 'X-Admin-Pin': adminPin }, body: JSON.stringify({ action:'resend', ids }) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok){ setMsg(`Błąd serwera (${r.status}${j.detail ? ': ' + j.detail : ''}).`, true); return; }
+    const ok = (j.results || []).filter(x => x.mailSent).length;
+    const bad = (j.results || []).filter(x => !x.mailSent);
+    await fetchServerLeads(adminPin);
+    // zaktualizuj lokalne kopie, żeby urządzenie nie ponawiało bez potrzeby
+    (j.results || []).forEach(x => { if (x.mailSent) patchLead(x.id, { synced:true, mailSent:true, mailError:null }); });
+    renderAdmin(); renderSync();
+    if (!bad.length) setMsg(`Wysłano: ${ok}.`);
+    else { const h = mailHint(bad[0].mailError); setMsg(`Wysłano: ${ok}, błąd: ${bad.length}. ${h || bad[0].mailError || ''}`, true); }
+  } catch { setMsg('Brak połączenia z serwerem.', true); }
+}
+$('#adRows').addEventListener('click', e => { const b = e.target.closest('.resend:not(.fixcard):not(.remtoggle)'); if (b){ b.disabled = true; resend([b.dataset.id]); } });
+$('#adRows').addEventListener('click', async e => {
+  const b = e.target.closest('.remtoggle'); if (!b || !adminPin) return; b.disabled = true;
+  const r = await adminPost({ action:'optout', ids:[b.dataset.id], value: b.dataset.v === '1' });
+  if (r) { await fetchServerLeads(adminPin); renderAdmin(); }
+});
+$('#adResendAll').addEventListener('click', () => resend(mergedLeads().filter(l => l._src === 'server' && !['sent','duplicate'].includes(l.mailStatus)).map(l => l.id).slice(0, 50)));
+
+/* =====================================================================
+   EKSPORT: Excel (.xlsx), PDF, CSV
+   Biblioteki leżą w /vendor (działają też offline – są w pamięci aplikacji).
+   Eksportuje to, co widać na liście (z uwzględnieniem wyszukiwania).
+   ===================================================================== */
+const EXPORT_COLS = [
+  { h:'Data', w:17 }, { h:'Imię i nazwisko', w:24 }, { h:'Firma', w:26 }, { h:'Stanowisko', w:20 }, { h:'E-mail', w:30 }, { h:'Telefon', w:17 },
+  { h:'Typ klienta', w:24 }, { h:'Zainteresowania', w:42 }, { h:'Notatka', w:36 }, { h:'Targi', w:20 },
+  { h:'Adres', w:36 }, { h:'WWW', w:24 }, { h:'Źródło', w:12 }, { h:'Język', w:7 }, { h:'Zgoda', w:8 }, { h:'Mail powitalny', w:15 }, { h:'Przypomnienie', w:16 }
+];
+const mailLabel = l => l.mailStatus === 'sent' ? 'wysłany' : l.mailStatus === 'error' ? 'błąd' : l.mailStatus === 'duplicate' ? 'duplikat' : 'oczekuje';
+const remLabel = l => l.reminderStatus === 'sent' ? 'wysłane' : l.reminderOptOut ? 'wykluczony' : l.reminderStatus === 'skipped' ? 'pominięte' : l.reminderPending ? 'zaplanowane' : '';
+const rowValues = l => [fmtDate(l.createdAt), l.name || '', l.company || '', l.position || '', l.email || '', l.phone || '', CTYPES[l.customerType] || '',
+  interestLabels(l.interests).join(', '), l.note || '', l.event || '', l.address || '', l.website || '',
+  l.source === 'card' ? 'wizytówka' : l.source === 'qr' ? 'kod QR' : 'formularz', (l.lang || 'de').toUpperCase(), l.consent ? 'tak' : 'nie', mailLabel(l), remLabel(l)];
+function exportRows(){
+  const all = mergedLeads(), q = $('#adSearch').value.trim().toLowerCase();
+  return q ? all.filter(l => [l.name,l.company,l.email,l.phone,l.note].join(' ').toLowerCase().includes(q)) : all;
+}
+const stamp = () => { const d = new Date(), p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}_${p(d.getHours())}-${p(d.getMinutes())}`; };
+const slug = s => (s || 'targi').toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const exportName = ext => `kontakty-${slug(settings().event)}-${stamp()}.${ext}`;
+
+function saveBlob(name, blob){
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+}
+const scriptCache = {};
+function loadScript(src){
+  return scriptCache[src] ||= new Promise((res, rej) => {
+    const s = document.createElement('script'); s.src = src; s.onload = res;
+    s.onerror = () => { delete scriptCache[src]; rej(new Error('Nie udało się wczytać ' + src)); };
+    document.head.appendChild(s);
+  });
+}
+async function fileB64(url){
+  const buf = new Uint8Array(await (await fetch(url)).arrayBuffer());
+  let bin = ''; for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode.apply(null, buf.subarray(i, i + 0x8000));
+  return btoa(bin);
+}
+const plKontakty = n => { const a = n % 10, b = n % 100; return n + (n === 1 ? ' kontakt' : (a >= 2 && a <= 4 && (b < 12 || b > 14)) ? ' kontakty' : ' kontaktów'); };
+async function runExport(kind, fn){
+  const rows = exportRows();
+  if (!rows.length){ setMsg('Brak kontaktów do eksportu.', true); return; }
+  const btns = $$('#adXlsx,#adPdf,#adCsv'); btns.forEach(b => b.disabled = true);
+  setMsg(`Przygotowuję ${kind}…`);
+  try { await fn(rows); setMsg(`Wyeksportowano ${plKontakty(rows.length)} do ${kind}.` + ($('#adSearch').value.trim() ? ' (tylko wyniki wyszukiwania)' : '')); }
+  catch (e) { console.error(e); setMsg(`Eksport ${kind} nie powiódł się: ${e.message}`, true); }
+  finally { btns.forEach(b => b.disabled = false); }
+}
+
+/* --- Excel --- */
+async function exportXlsx(rows){
+  await loadScript('/vendor/xlsx.mini.min.js');
+  const data = [EXPORT_COLS.map(c => c.h), ...rows.map(rowValues)];
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  ws['!cols'] = EXPORT_COLS.map(c => ({ wch: c.w }));
+  ws['!autofilter'] = { ref: XLSX.utils.encode_range({ s:{ r:0, c:0 }, e:{ r:data.length - 1, c:EXPORT_COLS.length - 1 } }) };
+  const wb = XLSX.utils.book_new();
+  wb.Props = { Title: 'Kontakty z targów', Author: 'Starecegly.com' };
+  XLSX.utils.book_append_sheet(wb, ws, 'Kontakty');
+  const out = XLSX.write(wb, { bookType:'xlsx', type:'array', compression:true });
+  saveBlob(exportName('xlsx'), new Blob([out], { type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+}
+
+/* --- PDF --- */
+async function logoDataUrl(){
+  const img = new Image(); img.src = '/logo.png'; await img.decode();
+  const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight;
+  c.getContext('2d').drawImage(img, 0, 0); return { url: c.toDataURL('image/png'), ratio: img.naturalHeight / img.naturalWidth };
+}
+async function exportPdf(rows){
+  await loadScript('/vendor/jspdf.umd.min.js');
+  await loadScript('/vendor/jspdf.plugin.autotable.min.js');
+  const { jsPDF } = window.jspdf;
+  if (typeof window.applyPlugin === 'function') window.applyPlugin(jsPDF);
+  const [reg, bold, logo] = await Promise.all([fileB64('/vendor/Inter-Regular.ttf'), fileB64('/vendor/Inter-Bold.ttf'), logoDataUrl()]);
+
+  const doc = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4' });
+  doc.addFileToVFS('Inter-Regular.ttf', reg); doc.addFont('Inter-Regular.ttf', 'Inter', 'normal');
+  doc.addFileToVFS('Inter-Bold.ttf', bold);   doc.addFont('Inter-Bold.ttf', 'Inter', 'bold');
+  doc.setProperties({ title:'Kontakty z targów – Starecegly.com', author:'Starecegly.com' });
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 12;
+
+  const events = [...new Set(rows.map(l => l.event).filter(Boolean))];
+  const showEvent = events.length > 1;
+  const eventTitle = events.length === 1 ? events[0] : (settings().event || '');
+  const sent = rows.filter(l => l.mailStatus === 'sent').length;
+  const allConsent = rows.every(l => l.consent);
+
+  // Kolumny PDF (bez „Zgoda”, „Targi” tylko gdy jest kilka targów)
+  const cols = [
+    { k:0, h:'Data', w:21 }, { k:1, h:'Imię i nazwisko', w:30 }, { k:2, h:'Firma', w:30 }, { k:4, h:'E-mail', w:42 }, { k:5, h:'Telefon', w:25 },
+    { k:6, h:'Typ klienta', w:22 }, { k:7, h:'Zainteresowania', w:36 }, { k:8, h:'Notatka', w:0 },
+    ...(showEvent ? [{ k:9, h:'Targi', w:22 }] : []), { k:15, h:'Mail', w:15 }
+  ];
+  const avail = W - 2 * M, used = cols.reduce((s, c) => s + c.w, 0);
+  cols.find(c => c.k === 8).w = Math.max(28, avail - used);          // notatka zabiera resztę szerokości
+  const total = cols.reduce((s, c) => s + c.w, 0);
+  if (total > avail) cols.forEach(c => c.w = c.w * avail / total);   // gdy za szeroko – proporcjonalnie zwężamy
+  const mailCol = cols.findIndex(c => c.k === 15);
+
+  const drawHeader = () => {
+    doc.setFillColor(18, 18, 18); doc.rect(0, 0, W, 20, 'F');
+    const lw = 46; doc.addImage(logo.url, 'PNG', M, 10 - (lw * logo.ratio) / 2, lw, lw * logo.ratio);
+    doc.setFont('Inter', 'bold'); doc.setFontSize(11); doc.setTextColor(255, 255, 255);
+    doc.text('Kontakty z targów' + (eventTitle ? ' · ' + eventTitle : ''), W - M, 11.5, { align:'right' });
+  };
+
+  drawHeader();
+  doc.setFont('Inter', 'normal'); doc.setFontSize(9); doc.setTextColor(66, 75, 87);
+  doc.text(`Wygenerowano: ${new Date().toLocaleString('pl-PL')}   ·   Liczba kontaktów: ${rows.length}   ·   Maile wysłane: ${sent}` +
+    (allConsent ? '   ·   Wszystkie osoby wyraziły zgodę (DSGVO)' : ''), M, 27);
+
+  doc.autoTable({
+    startY: 31,
+    margin: { top: 26, left: M, right: M, bottom: 14 },
+    head: [cols.map(c => c.h)],
+    body: rows.map(l => { const v = rowValues(l); return cols.map(c => v[c.k]); }),
+    theme: 'grid',
+    styles: { font:'Inter', fontStyle:'normal', fontSize:8.2, cellPadding:{ top:2, bottom:2, left:2, right:2 }, textColor:[18,18,18], lineColor:[226,229,233], lineWidth:0.15, overflow:'linebreak', valign:'top' },
+    headStyles: { font:'Inter', fontStyle:'bold', fillColor:[244,158,26], textColor:[17,17,17], lineColor:[244,158,26] },
+    alternateRowStyles: { fillColor:[248,248,249] },
+    columnStyles: Object.fromEntries(cols.map((c, i) => [i, { cellWidth: c.w }])),
+    didParseCell: d => {
+      if (d.section === 'body' && d.column.index === 1) d.cell.styles.fontStyle = 'bold';
+      if (d.section === 'body' && d.column.index === mailCol){
+        const t = String(d.cell.raw);
+        d.cell.styles.textColor = t === 'wysłany' ? [31,138,76] : t === 'błąd' ? [198,40,40] : [138,79,5];
+      }
+    },
+    didDrawPage: () => drawHeader()
+  });
+
+  const n = doc.getNumberOfPages();
+  for (let i = 1; i <= n; i++){
+    doc.setPage(i); doc.setFont('Inter', 'normal'); doc.setFontSize(8); doc.setTextColor(107, 116, 128);
+    doc.text('Starecegly.com · Stare Cegły Sp. z o.o. · dane poufne (RODO)', M, H - 7);
+    doc.text(`Strona ${i} z ${n}`, W - M, H - 7, { align:'right' });
+  }
+  saveBlob(exportName('pdf'), doc.output('blob'));
+}
+
+/* --- CSV (zapasowo) --- */
+function exportCsv(rows){
+  const cell = v => { const s = String(v ?? ''); return /[;"\n\r]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s; };
+  const text = '﻿' + [EXPORT_COLS.map(c => c.h).join(';'), ...rows.map(l => rowValues(l).map(cell).join(';'))].join('\r\n');
+  saveBlob(exportName('csv'), new Blob([text], { type:'text/csv;charset=utf-8' }));
+}
+
+$('#adXlsx').addEventListener('click', () => runExport('Excela', exportXlsx));
+$('#adPdf').addEventListener('click', () => runExport('PDF', exportPdf));
+$('#adCsv').addEventListener('click', () => runExport('CSV', async rows => exportCsv(rows)));
+
+/* =====================================================================
+   USTAWIENIA (zakładka w panelu)
+   ===================================================================== */
+let savedTimer = null;
+function flashSaved(){ $('#sSaved').textContent = '✓ Zapisano'; clearTimeout(savedTimer); savedTimer = setTimeout(() => $('#sSaved').textContent = '', 1500); }
+function updateFullBtn(){ const b = $('#sFull'); if (b) b.textContent = isFullscreen() ? 'Wyłącz' : 'Włącz teraz'; }
+
+function renderSettings(){
+  const c = cfg(), s = settings();
+  $('#sEvent').value = s.event || '';
+  $('#sKey').value = s.kioskKey || '';
+  $$('#admin .opts[data-set]').forEach(g => {
+    const cur = String(c[g.dataset.set]);
+    g.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === cur)));
+  });
+  $$('#admin .switch[data-set]').forEach(sw => sw.setAttribute('aria-checked', String(!!c[sw.dataset.set])));
+  const local = getLeads(), pend = local.filter(l => !l.synced).length;
+  $('#sLocalInfo').textContent = `${local.length} zapisów na tym urządzeniu` + (pend ? `, ${pend} jeszcze nie wysłanych do bazy!` : ', wszystkie są w bazie.');
+  updateFullBtn();
+}
+function onSettingChanged(key){
+  if (['uiScale','orientation','keepAwake'].includes(key)) applyScreen();
+  if (key === 'requirePhone' || key === 'scanInForm') applyFormSettings();
+  if (key === 'defaultLang' && !$('#thanks').classList.contains('show')) applyLang(defaultLang());
+  flashSaved();
+}
+$$('#admin .opts[data-set]').forEach(g => g.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const raw = b.dataset.v, v = isNaN(Number(raw)) ? raw : Number(raw);
+  setSetting(g.dataset.set, v); renderSettings(); onSettingChanged(g.dataset.set);
+}));
+$$('#admin .switch[data-set]').forEach(sw => sw.addEventListener('click', () => {
+  const v = sw.getAttribute('aria-checked') !== 'true';
+  setSetting(sw.dataset.set, v); sw.setAttribute('aria-checked', String(v)); onSettingChanged(sw.dataset.set);
+}));
+$('#sEvent').addEventListener('change', () => { setSetting('event', $('#sEvent').value.trim()); $('#adEvent').textContent = settings().event || 'bez nazwy'; flashSaved(); });
+$('#sKey').addEventListener('change', () => { setSetting('kioskKey', $('#sKey').value.trim()); authProblem = false; flashSaved(); flush(); });
+$('#sFull').addEventListener('click', () => { isFullscreen() ? exitFullscreen() : enterFullscreen(); setTimeout(updateFullBtn, 300); });
+$('#sClear').addEventListener('click', () => {
+  const local = getLeads(), pend = local.filter(l => !l.synced).length;
+  const msg = pend ? `UWAGA: ${pend} zapisów NIE trafiło jeszcze do bazy i zostanie utraconych. Najpierw zrób eksport do Excela lub PDF. Na pewno wyczyścić?` : `Usunąć ${local.length} zapisów z tego urządzenia? (W bazie zostaną.)`;
+  if (!confirm(msg)) return;
+  save(LS.leads, []); renderSettings(); renderSync(); flashSaved();
+});
+
+// diagnostyka: baza + poczta
+async function runDiag(key, box){
+  box.innerHTML = '<div>Sprawdzam…</div>';
+  try {
+    const r = await fetch('/api/ping', { headers:{ 'X-Kiosk-Key': key }, cache:'no-store' });
+    if (r.status === 401){ box.innerHTML = '<div class="bad"><b>Zły klucz kiosku.</b> Musi być identyczny jak KIOSK_KEY w Vercelu.</div>'; return { auth:false }; }
+    const j = await r.json().catch(() => ({}));
+    const dbLine = j.db ? '<div class="ok"><b>Baza danych:</b> działa</div>' : `<div class="bad"><b>Baza danych: błąd.</b> ${esc(j.dbError || '')}</div>`;
+    const where = j.smtp ? ` (${esc(j.smtp.user)} @ ${esc(j.smtp.host)}:${esc(j.smtp.port)})` : '';
+    const mailLine = j.mail ? `<div class="ok"><b>Poczta:</b> połączenie działa${where}</div>`
+      : `<div class="bad"><b>Poczta: błąd${where}.</b> ${esc(mailHint(j.mailError))}<br><small>${esc(j.mailError || '')}</small></div>`;
+    const scanLine = j.scan ? '<div class="ok"><b>Skaner wizytówek:</b> klucz AI ustawiony</div>' : '<div class="bad"><b>Skaner wizytówek:</b> brak GEMINI_API_KEY w Vercelu – skanowanie nie zadziała.</div>';
+    const shown = String(DEFAULTS.discountPercent);
+    const pctOk = j.pct === shown;
+    const pctLine = j.pct ? `<div class="${pctOk ? 'ok' : 'bad'}"><b>Rabat w mailu:</b> ${esc(j.pct)} % · kod ${esc(j.code)}${pctOk ? '' : ` – formularz pokazuje ${esc(shown)} %. Zmień w Vercelu DISCOUNT_PERCENT na ${esc(shown)} i zrób Redeploy.`}${j.commit ? ` <small>(wersja ${esc(j.commit)})</small>` : ''}</div>` : '<div class="bad"><b>Rabat:</b> serwer działa na starej wersji – wgraj nowe pliki api/ na GitHub.</div>';
+    box.innerHTML = dbLine + mailLine + scanLine + pctLine;
+    return { auth:true, db:j.db, mail:j.mail };
+  } catch { box.innerHTML = '<div class="bad">Brak połączenia z serwerem aplikacji.</div>'; return { offline:true }; }
+}
+$('#sTest').addEventListener('click', () => runDiag(settings().kioskKey || '', $('#sDiag')));
+
+/* =====================================================================
+   SETUP (pierwsze uruchomienie)
+   ===================================================================== */
+function checkSetup(){ if (!settings().kioskKey) $('#setup').classList.add('show'); }
+let setupChecked = false;
+$('#setupSave').addEventListener('click', async () => {
+  const key = $('#setKey').value.trim(), event = $('#setEvent').value.trim();
+  if (!key){ $('#setupMsg').textContent = 'Wpisz klucz kiosku.'; return; }
+  if (!setupChecked){
+    $('#setupMsg').textContent = '';
+    const d = await runDiag(key, $('#setupDiag'));
+    if (d.auth === false) return;
+    if (d.offline || !d.db || !d.mail){
+      setupChecked = true;
+      $('#setupMsg').textContent = 'Możesz kontynuować – zapisy będą czekać na urządzeniu i wyślą się po naprawie.';
+      $('#setupSave').textContent = 'Kontynuuj mimo to';
+      return;
+    }
+  }
+  setSetting('kioskKey', key); setSetting('event', event);
+  $('#setup').classList.remove('show');
+  flush();
+});
+['setKey','setEvent'].forEach(id => $('#' + id).addEventListener('input', () => { setupChecked = false; $('#setupSave').textContent = 'Zapisz i uruchom'; }));
+
+/* =====================================================================
+   SKANER WIZYTÓWEK
+   - tryb 'form'  (DE): klient skanuje swoją wizytówkę → pola formularza się wypełniają
+   - tryb 'staff' (PL): obsługa skanuje wizytówki seryjnie → kontakt + mail powitalny
+   Odczyt robi AI na serwerze (/api/scan). Bez internetu (tryb staff) zdjęcie
+   czeka w IndexedDB i jest odczytywane automatycznie po powrocie sieci.
+   ===================================================================== */
+const IDB = (() => {
+  let dbp = null;
+  const open = () => dbp ||= new Promise((res, rej) => {
+    const r = indexedDB.open('sc_targi', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('cards');
+    r.onsuccess = () => res(r.result); r.onerror = () => { dbp = null; rej(r.error); };
+  });
+  const run = async (mode, fn) => { const db = await open(); return new Promise((res, rej) => {
+    const t = db.transaction('cards', mode), req = fn(t.objectStore('cards'));
+    t.oncomplete = () => res(req && req.result); t.onerror = () => rej(t.error); t.onabort = () => rej(t.error);
+  }); };
+  return { get: id => run('readonly', s => s.get(id)), put: (id, v) => run('readwrite', s => s.put(v, id)), del: id => run('readwrite', s => s.delete(id)) };
+})();
+
+const CONSENT_TEXT_CARD = 'Ustna zgoda na stoisku targowym: klient przekazał wizytówkę i zgodził się na kontakt e-mailowy (kupon rabatowy, informacje o produktach i ofertach Starecegly.com). Administrator danych: Stare Cegły Sp. z o.o., ul. Polna 65, 87-100 Toruń. Zgodę zarejestrował pracownik.';
+const SC_TEXT = {
+  get form(){ return I18N[LANG].sc; },
+  staff: { title:'Skaner wizytówek', hint:'Umieść wizytówkę w ramce i zrób zdjęcie', file:'Aparat / galeria', busy:'Odczytuję wizytówkę…',
+           noCam:'Brak dostępu do kamery – użyj „Aparat / galeria”.' }
+};
+let scMode = 'form', scStream = null, scCount = 0, scannedExtra = {};
+const scInterests = new Set();
+let scConsent = false, scLang = 'pl', rvLang = 'pl';
+const paintLangs = (sel, v) => $$(sel + ' button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === v)));
+$('#scLangs').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ scLang = b.dataset.lang; paintLangs('#scLangs', scLang); } });
+$('#rvLangs').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ rvLang = b.dataset.lang; paintLangs('#rvLangs', rvLang); } });
+
+function scToast(msg, bad){
+  const t = $('#scToast'); t.textContent = msg; t.className = 'sc-toast show' + (bad ? ' bad' : '');
+  clearTimeout(scToast.tm); scToast.tm = setTimeout(() => t.className = 'sc-toast', bad ? 4500 : 2600);
+}
+function scBusy(on, text){ $('#scBusy').classList.toggle('show', !!on); $('#scBusyText').textContent = text || ''; }
+function chipsHtml(sel){ return INTERESTS.map(i => `<button type="button" data-v="${i.id}" aria-pressed="${sel.has(i.id)}">${esc(i.label)}</button>`).join(''); }
+function renderStaffBar(){
+  $('#scChips').innerHTML = chipsHtml(scInterests);
+  $('#scConsent').setAttribute('aria-checked', String(scConsent));
+  paintLangs('#scLangs', scLang);
+  $('#scCount').textContent = scMode === 'staff' ? `Zeskanowano: ${scCount}` : '';
+}
+function resetStaffBar(){ scInterests.clear(); scConsent = false; scLang = 'pl'; renderStaffBar(); }
+
+$('#scChips').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; scInterests.has(b.dataset.v) ? scInterests.delete(b.dataset.v) : scInterests.add(b.dataset.v); renderStaffBar(); });
+$('#scConsent').addEventListener('click', () => { scConsent = !scConsent; renderStaffBar(); });
+
+async function openScanner(mode){
+  scMode = mode; const t = SC_TEXT[mode];
+  $('#scTitle').textContent = t.title; $('#scHint').textContent = t.hint; $('#scFileLbl').textContent = t.file;
+  $('#scClose').setAttribute('aria-label', mode === 'form' ? tr('sc').close : 'Zamknij');
+  $('#scStaff').style.display = mode === 'staff' ? '' : 'none';
+  if (mode === 'staff') resetStaffBar(); else $('#scCount').textContent = '';
+  scBusy(false);
+  $('#scanner').classList.add('show');
+  if (mode === 'form' && !navigator.onLine) scToast(t.offline, true);
+  await startCam();
+}
+async function startCam(){
+  stopCam();
+  const fail = () => { $('#scanner').classList.add('nocam'); $('#scHint').textContent = SC_TEXT[scMode].noCam; };
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return fail();
+  try {
+    scStream = await navigator.mediaDevices.getUserMedia({ audio:false, video:{ facingMode:{ ideal:'environment' }, width:{ ideal:1920 }, height:{ ideal:1080 } } });
+    if (!$('#scanner').classList.contains('show')) { stopCam(); return; }
+    const v = $('#scVideo'); v.srcObject = scStream; await v.play().catch(() => {});
+    $('#scanner').classList.remove('nocam');
+  } catch { fail(); }
+}
+function stopCam(){ if (scStream){ scStream.getTracks().forEach(t => t.stop()); scStream = null; } const v = $('#scVideo'); if (v) v.srcObject = null; }
+function closeScanner(){ stopCam(); scBusy(false); $('#scanner').classList.remove('show'); if ($('#admin').classList.contains('show')) renderAdmin(); }
+$('#scClose').addEventListener('click', closeScanner);
+
+// zdjęcie → JPEG max 1600 px (wystarcza do odczytu, mały transfer)
+function toJpeg(src, w, h){
+  const k = Math.min(1, 1600 / Math.max(w, h)), c = document.createElement('canvas');
+  c.width = Math.round(w * k); c.height = Math.round(h * k);
+  c.getContext('2d').drawImage(src, 0, 0, c.width, c.height);
+  return c.toDataURL('image/jpeg', 0.85);
+}
+function grabFrame(){ const v = $('#scVideo'); return v.videoWidth ? toJpeg(v, v.videoWidth, v.videoHeight) : null; }
+function fileToJpeg(file){
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => { try { res(toJpeg(img, img.naturalWidth, img.naturalHeight)); } finally { URL.revokeObjectURL(url); } };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Nie udało się wczytać zdjęcia')); };
+    img.src = url;
+  });
+}
+
+$('#scShot').addEventListener('click', () => {
+  if (scMode === 'staff' && !scConsent){ needConsent(); return; }
+  const shot = $('#scanner').classList.contains('nocam') ? null : grabFrame();
+  if (!shot){ $('#scFile').click(); return; }
+  const f = $('#scFlash'); f.classList.add('on'); setTimeout(() => f.classList.remove('on'), 60);
+  handleCardImage(shot);
+});
+$('#scFile').addEventListener('click', e => { if (scMode === 'staff' && !scConsent){ e.preventDefault(); needConsent(); } });
+$('#scFile').addEventListener('change', async e => {
+  const file = e.target.files && e.target.files[0]; e.target.value = '';
+  if (!file) return;
+  try { handleCardImage(await fileToJpeg(file)); } catch (err) { scToast(err.message, true); }
+});
+function needConsent(){ const c = $('#scConsent'); c.classList.remove('pulse'); void c.offsetWidth; c.classList.add('pulse'); scToast('Najpierw zapytaj klienta o zgodę i zaznacz ją.', true); }
+
+async function readCard(dataUrl){
+  const r = await fetch('/api/scan', { method:'POST', headers:{ 'Content-Type':'application/json', 'X-Kiosk-Key': settings().kioskKey || '' }, body: JSON.stringify({ image: dataUrl }) });
+  const j = await r.json().catch(() => ({}));
+  if (r.status === 501){ const e = new Error(j.detail || 'Brak GEMINI_API_KEY'); e.code = 'notconf'; throw e; }
+  if (r.status === 401){ const e = new Error('Zły klucz kiosku'); e.code = 'auth'; throw e; }
+  if (!r.ok){ const e = new Error(j.detail || ('HTTP ' + r.status)); e.code = 'server'; throw e; }
+  return j;
+}
+const pickCard = c => ({
+  name: c.name || '', email: (c.email || '').toLowerCase(), phone: c.phone || c.phone2 || '',
+  company: c.company || '', position: c.position || '', website: c.website || '', address: c.address || '',
+  phone2: c.phone && c.phone2 ? c.phone2 : ''
+});
+function newCardLead(){
+  return { id: uuid(), name:'', email:'', phone:'', company:'', position:'', website:'', address:'', customerType:'',
+    interests:[...scInterests], note:'', event: settings().event || '', consent:true, consentText: CONSENT_TEXT_CARD,
+    source:'card', createdAt: new Date().toISOString(), lang: scLang, synced:false, mailSent:false, attempts:0 };
+}
+function withPhone2(lead, c){ const p2 = pickCard(c).phone2; return p2 ? [lead.note, 'Tel. 2: ' + p2].filter(Boolean).join(' · ') : lead.note; }
+
+async function handleCardImage(dataUrl){
+  /* --- klient sam skanuje swoją wizytówkę --- */
+  if (scMode === 'form'){
+    const t = SC_TEXT.form;
+    if (!navigator.onLine){ scToast(t.offline, true); return; }
+    scBusy(true, t.busy);
+    try {
+      const j = await readCard(dataUrl); scBusy(false);
+      if (!j.readable || !(j.card.email || j.card.name)){ scToast(t.fail, true); return; }
+      fillFormFromCard(j.card); closeScanner();
+    } catch (e) { scBusy(false); scToast(e.code === 'notconf' || e.code === 'auth' ? t.notConf : t.fail, true); }
+    return;
+  }
+  /* --- obsługa: tryb seryjny --- */
+  if (!scConsent){ needConsent(); return; }
+  const base = newCardLead();
+  if (!navigator.onLine){ if (await queueCard(base, dataUrl)) afterStaffSave('Zapisano w kolejce – odczyt po powrocie internetu.'); return; }
+  scBusy(true, SC_TEXT.staff.busy);
+  try {
+    const j = await readCard(dataUrl); scBusy(false);
+    const c = j.card || {}, ok = j.readable && EMAIL_RE.test(c.email || '');
+    const lead = { ...base, ...pickCard(c) }; delete lead.phone2; lead.note = withPhone2(base, c);
+    if (ok && cfg().scanAutoSave){ storeLead(lead); afterStaffSave(`Zapisano: ${lead.name || lead.email}`); }
+    else openReview({ lead, image: dataUrl, fromScanner: true,
+      msg: ok ? '' : j.readable ? 'Nie znaleziono poprawnego adresu e-mail – uzupełnij go ręcznie.' : 'Nie udało się odczytać wizytówki – uzupełnij dane ręcznie albo odrzuć i zrób nowe zdjęcie.' });
+  } catch (e) {
+    scBusy(false);
+    if (e.code === 'auth'){ scToast('Zły klucz kiosku – sprawdź Ustawienia.', true); return; }
+    if (e.code === 'notconf'){ scToast('Brak GEMINI_API_KEY w Vercelu – odczyt wizytówek nie działa.', true); return; }
+    if (await queueCard(base, dataUrl)) afterStaffSave('Serwer chwilowo niedostępny – zapisano w kolejce, odczyt automatycznie.');
+  }
+}
+function storeLead(lead){ const all = getLeads(); all.push(lead); save(LS.leads, all); flush(); }
+async function queueCard(lead, dataUrl){
+  try { await IDB.put(lead.id, dataUrl); } catch { scToast('Brak miejsca na zdjęcie – zrób eksport i wyczyść dane.', true); return false; }
+  const all = getLeads(); all.push({ ...lead, needsOcr:true }); save(LS.leads, all); renderSync(); return true;
+}
+function afterStaffSave(msg){ scCount++; resetStaffBar(); scToast('✓ ' + msg); }
+
+/* formularz klienta: wstaw odczytane dane */
+function fillFormFromCard(c){
+  $('#name').value = c.name || ''; $('#email').value = (c.email || '').toLowerCase(); $('#phone').value = c.phone || c.phone2 || '';
+  scannedExtra = { company: c.company || '', position: c.position || '', website: c.website || '', address: c.address || '' };
+  ['name','email','phone'].forEach(id => setInvalid(id, false));
+  $('#scanNote').classList.add('show'); suggestEmail();
+  goStep(1);
+}
+$('#scanForm').addEventListener('click', () => openScanner('form'));
+
+/* --- okno sprawdzania danych (PL) --- */
+let rv = null;
+const rvInterests = new Set();
+function openReview({ lead, image, msg, fromScanner, existing }){
+  rv = { lead, image, fromScanner: !!fromScanner, existing: !!existing };
+  $('#rvImg').src = image || '';
+  $('#rvName').value = lead.name || ''; $('#rvCompany').value = lead.company || ''; $('#rvEmail').value = lead.email || '';
+  $('#rvPhone').value = lead.phone || ''; $('#rvPosition').value = lead.position || ''; $('#rvNote').value = lead.note || '';
+  $('#rvEmail').classList.remove('bad');
+  rvInterests.clear(); (lead.interests || []).forEach(i => rvInterests.add(i)); $('#rvChips').innerHTML = chipsHtml(rvInterests);
+  $('#rvConsent').setAttribute('aria-checked', String(lead.consent !== false));
+  rvLang = LANGS.includes(lead.lang) ? lead.lang : 'pl'; paintLangs('#rvLangs', rvLang);
+  $('#rvMsg').textContent = msg || '';
+  $('#review').classList.add('show');
+}
+function closeReview(){ $('#review').classList.remove('show'); rv = null; }
+$('#rvChips').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; rvInterests.has(b.dataset.v) ? rvInterests.delete(b.dataset.v) : rvInterests.add(b.dataset.v); $('#rvChips').innerHTML = chipsHtml(rvInterests); });
+$('#rvConsent').addEventListener('click', () => { const b = $('#rvConsent'); b.setAttribute('aria-checked', String(b.getAttribute('aria-checked') !== 'true')); });
+$('#rvClose').addEventListener('click', closeReview);
+$('#rvRetake').addEventListener('click', () => {
+  if (rv && rv.existing && !confirm('Usunąć tę wizytówkę z kolejki? Kontakt nie zostanie zapisany.')) return;
+  if (rv && rv.existing){ const id = rv.lead.id; save(LS.leads, getLeads().filter(l => l.id !== id)); IDB.del(id).catch(() => {}); renderSync(); renderAdmin(); }
+  closeReview();
+});
+$('#rvSave').addEventListener('click', () => {
+  const email = $('#rvEmail').value.trim().toLowerCase();
+  if (!EMAIL_RE.test(email)){ $('#rvEmail').classList.add('bad'); $('#rvMsg').textContent = 'Podaj poprawny adres e-mail – bez niego nie wyślemy maila powitalnego.'; $('#rvEmail').focus(); return; }
+  if ($('#rvConsent').getAttribute('aria-checked') !== 'true'){ $('#rvMsg').textContent = 'Zaznacz zgodę klienta – bez niej nie zapisujemy kontaktu.'; return; }
+  const fields = { name: $('#rvName').value.trim(), company: $('#rvCompany').value.trim(), email, phone: $('#rvPhone').value.trim(),
+    position: $('#rvPosition').value.trim(), note: $('#rvNote').value.trim(), interests: [...rvInterests], consent: true, lang: rvLang };
+  const { fromScanner, existing, lead } = rv;
+  if (existing){ patchLead(lead.id, { ...fields, needsOcr:false, ocrFailed:false, ocrError:null }); IDB.del(lead.id).catch(() => {}); flush(); }
+  else storeLead({ ...lead, ...fields });
+  closeReview();
+  if (fromScanner) afterStaffSave(`Zapisano: ${fields.name || fields.email}`);
+  else { renderAdmin(); setMsg(`Zapisano: ${fields.name || fields.email} – mail wyjdzie automatycznie.`); }
+});
+
+/* --- zakładka „Skaner” w panelu --- */
+function renderScanTab(){
+  const c = cfg();
+  $$('#vScan .switch').forEach(sw => sw.setAttribute('aria-checked', String(!!c[sw.dataset.set])));
+  const local = getLeads(), q = local.filter(l => l.needsOcr && !l.ocrFailed).length, f = local.filter(l => l.ocrFailed).length;
+  $('#scQueueInfo').innerHTML = (q ? `<div>W kolejce do odczytu: <b>${q}</b> ${q === 1 ? 'wizytówka' : 'wizytówek'} – zostaną odczytane, gdy będzie internet.</div>` : '') +
+    (f ? `<div class="bad">Do ręcznej poprawy: <b>${f}</b> – znajdziesz je w zakładce Zgłoszenia (przycisk „Popraw ręcznie”).</div>` : '');
+}
+$('#scStart').addEventListener('click', () => openScanner('staff'));
+$('#adRows').addEventListener('click', async e => {
+  const b = e.target.closest('.fixcard'); if (!b) return;
+  const lead = getLeads().find(l => l.id === b.dataset.id); if (!lead) return;
+  const image = await IDB.get(lead.id).catch(() => null);
+  openReview({ lead, image, existing: true, msg: lead.ocrError ? 'Automatyczny odczyt: ' + lead.ocrError : '' });
+});
+
+/* --- kolejka offline: odczyt zaległych wizytówek (wywoływane z flush) --- */
+async function ocrQueue(s){
+  for (const l of getLeads().filter(x => x.needsOcr && !x.ocrFailed)){
+    const img = await IDB.get(l.id).catch(() => null);
+    if (!img){ patchLead(l.id, { ocrFailed:true, ocrError:'Brak zdjęcia na urządzeniu' }); continue; }
+    let r;
+    try { r = await fetch('/api/scan', { method:'POST', headers:{ 'Content-Type':'application/json', 'X-Kiosk-Key': s.kioskKey }, body: JSON.stringify({ image: img }) }); }
+    catch { return; }                                  // brak sieci – spróbujemy później
+    if (r.status === 401){ authProblem = true; return; }
+    if (r.status === 501 || !r.ok) return;            // brak klucza AI / błąd serwera – czekamy
+    const j = await r.json().catch(() => ({})), c = j.card || {};
+    if (j.readable && EMAIL_RE.test(c.email || '')){
+      const p = pickCard(c); delete p.phone2;
+      patchLead(l.id, { ...p, note: withPhone2(l, c), needsOcr:false });
+      IDB.del(l.id).catch(() => {});
+    } else patchLead(l.id, { ocrFailed:true, ocrError: j.readable ? 'Na wizytówce nie znaleziono adresu e-mail.' : 'Zdjęcie nieczytelne.' });
+  }
+}
+
+/* =====================================================================
+   MARKETING: kod QR dla odwiedzających + mail przypominający (PL)
+   Ustawienia zapisują się na serwerze – wspólne dla wszystkich urządzeń.
+   ===================================================================== */
+// Kod QR zawsze na główny adres aplikacji (z Vercela), nawet gdy panel otwarto z innego adresu.
+const qrUrl = () => ((srvCfg && srvCfg.appUrl) ? 'https://' + srvCfg.appUrl : location.origin) + '/?qr=1';
+function mkMsg(t, bad){ $('#mkMsg').textContent = t || ''; $('#mkMsg').className = 'msg' + (bad ? ' bad' : ''); }
+async function qrMatrix(text){
+  await loadScript('/vendor/qrcode.js');
+  const q = qrcode(0, 'M'); q.addData(text); q.make();
+  const n = q.getModuleCount(); return { n, dark: (r, c) => q.isDark(r, c) };
+}
+async function drawQr(canvas, text, px){
+  const m = await qrMatrix(text), quiet = 4, size = px || canvas.width, cell = size / (m.n + quiet * 2);
+  canvas.width = canvas.height = size;
+  const g = canvas.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, size, size); g.fillStyle = '#121212';
+  for (let r = 0; r < m.n; r++) for (let c = 0; c < m.n; c++) if (m.dark(r, c)) g.fillRect(Math.floor((c + quiet) * cell), Math.floor((r + quiet) * cell), Math.ceil(cell), Math.ceil(cell));
+}
+function renderMkt(){
+  const c = srvCfg, online = !!(adminPin && c);
+  $('#qrUrl').textContent = qrUrl();
+  drawQr($('#qrCanvas'), qrUrl(), 600).catch(() => {});
+  ['#qrEnabled','#qrEvent','#remEnabled','#remRun','#tmWelcome','#tmReminder'].forEach(s => $(s).disabled = !online);
+  $$('#remDays button').forEach(b => b.disabled = !online);
+  if (!online){ mkMsg('Ustawienia marketingu wymagają internetu (zapisują się na serwerze). Plakat i kod QR możesz pobrać także offline.', true); }
+  else mkMsg('');
+  if (c){
+    $('#qrEnabled').setAttribute('aria-checked', String(!!c.qrEnabled));
+    if (document.activeElement !== $('#qrEvent')) $('#qrEvent').value = c.qrEvent || settings().event || '';
+    $('#remEnabled').setAttribute('aria-checked', String(!!c.remindersEnabled));
+    $$('#remDays button').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.v) === Number(c.reminderDays))));
+  }
+  const all = serverLeads || [];
+  const qrN = all.filter(l => l.source === 'qr').length;
+  $('#qrStat').textContent = `Zapisy z kodu QR: ${qrN}` + (c && !c.qrEnabled ? ' · formularz QR jest WYŁĄCZONY' : '');
+  const planned = all.filter(l => l.reminderPending && !l.reminderOptOut).length, sent = all.filter(l => l.reminderStatus === 'sent').length,
+        opt = all.filter(l => l.reminderOptOut).length;
+  $('#remStat').innerHTML = c ? `<div class="${c.remindersEnabled ? 'ok' : ''}">${c.remindersEnabled ? `<b>Włączone</b> – ${c.reminderDays} dni po powitaniu.` : '<b>Wyłączone.</b> Kontakty czekają, po włączeniu dostaną przypomnienie zgodnie z liczbą dni.'}
+    Zaplanowane: <b>${planned}</b> · wysłane: <b>${sent}</b> · bez przypomnienia: <b>${opt}</b></div>` : '';
+}
+async function saveCfg(patch){
+  const j = await adminPost({ action:'config', patch });
+  if (j && j.config){ srvCfg = j.config; renderMkt(); renderAdmin(); flashMk('✓ Zapisano'); }
+  else renderMkt();
+}
+function flashMk(t){ mkMsg(t); clearTimeout(flashMk.tm); flashMk.tm = setTimeout(() => mkMsg(''), 1800); }
+$('#qrEnabled').addEventListener('click', () => {
+  const on = $('#qrEnabled').getAttribute('aria-checked') !== 'true';
+  const patch = { qrEnabled: on }, ev = $('#qrEvent').value.trim() || settings().event || '';
+  if (on && !(srvCfg && srvCfg.qrEvent) && ev) patch.qrEvent = ev;
+  saveCfg(patch);
+});
+$('#qrEvent').addEventListener('change', () => saveCfg({ qrEvent: $('#qrEvent').value.trim() }));
+$('#remEnabled').addEventListener('click', () => saveCfg({ remindersEnabled: $('#remEnabled').getAttribute('aria-checked') !== 'true' }));
+$('#remDays').addEventListener('click', e => { const b = e.target.closest('button'); if (b) saveCfg({ reminderDays: Number(b.dataset.v) }); });
+$('#remRun').addEventListener('click', async () => {
+  $('#remRun').disabled = true; mkMsg('Wysyłam zaległe przypomnienia…');
+  const j = await adminPost({ action:'reminders-run' });
+  $('#remRun').disabled = false;
+  if (!j) return;
+  if (!j.enabled) { mkMsg('Przypomnienia są wyłączone – włącz je powyżej.', true); return; }
+  await fetchServerLeads(adminPin); renderMkt(); renderAdmin();
+  mkMsg(`Wysłano: ${j.sent}, pominięto: ${j.skipped}, błędy: ${j.errors}, jeszcze nie w terminie: ${j.notDue}` + (j.remaining ? `, zostało na później: ${j.remaining}` : '') + '.', j.errors > 0);
+});
+let tmLang = 'pl';
+$('#tmLang').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; tmLang = b.dataset.v; $$('#tmLang button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
+async function testMail(kind){
+  const email = $('#tmEmail').value.trim();
+  if (!EMAIL_RE.test(email)){ mkMsg('Wpisz poprawny adres e-mail do testu.', true); $('#tmEmail').focus(); return; }
+  mkMsg('Wysyłam mail testowy…');
+  const j = await adminPost({ action:'test-mail', kind, lang: tmLang, email });
+  if (j) j.ok ? mkMsg(`✓ Wysłano ${kind === 'reminder' ? 'przypomnienie' : 'powitanie'} (${tmLang.toUpperCase()}) na ${email}. Sprawdź też SPAM.`) : mkMsg('Błąd wysyłki: ' + (mailHint(j.error) || j.error), true);
+}
+$('#tmWelcome').addEventListener('click', () => testMail('welcome'));
+$('#tmReminder').addEventListener('click', () => testMail('reminder'));
+$('#qrCopy').addEventListener('click', async () => { try { await navigator.clipboard.writeText(qrUrl()); flashMk('✓ Skopiowano link'); } catch { mkMsg(qrUrl()); } });
+$('#qrPng').addEventListener('click', async () => {
+  const c = document.createElement('canvas'); await drawQr(c, qrUrl(), 1600);
+  c.toBlob(b => saveBlob(`kod-qr-starecegly-${slug($('#qrEvent').value || settings().event)}.png`, b), 'image/png');
+});
+
+/* --- plakat A4 z kodem QR (PDF, wektorowy kod) --- */
+async function imgData(url){
+  const img = new Image(); img.src = url; await img.decode();
+  const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight;
+  c.getContext('2d').drawImage(img, 0, 0);
+  return { url: c.toDataURL(url.endsWith('.png') ? 'image/png' : 'image/jpeg', 0.85), ratio: img.naturalHeight / img.naturalWidth };
+}
+async function makePoster(){
+  mkMsg('Przygotowuję plakat…');
+  await loadScript('/vendor/jspdf.umd.min.js');
+  const { jsPDF } = window.jspdf;
+  const [reg, bold, logo, bricks, m] = await Promise.all([fileB64('/vendor/Inter-Regular.ttf'), fileB64('/vendor/Inter-Bold.ttf'), logoDataUrl(), imgData('/bricks.jpg'), qrMatrix(qrUrl())]);
+  const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+  doc.addFileToVFS('Inter-Regular.ttf', reg); doc.addFont('Inter-Regular.ttf', 'Inter', 'normal');
+  doc.addFileToVFS('Inter-Bold.ttf', bold);   doc.addFont('Inter-Bold.ttf', 'Inter', 'bold');
+  doc.setProperties({ title:'Plakat QR – Starecegly.com' });
+  const W = 210, H = 297, M = 18, pct = I18N.pl.pct(DEFAULTS.discountPercent), ev = ($('#qrEvent').value || settings().event || '').trim();
+
+  // górna część: zdjęcie cegieł + ciemna nakładka
+  const topH = 124, bw = W, bh = W * bricks.ratio;
+  doc.addImage(bricks.url, 'JPEG', 0, Math.min(0, topH - bh), bw, Math.max(bh, topH));
+  doc.setGState(new doc.GState({ opacity: 0.74 })); doc.setFillColor(17, 17, 17); doc.rect(0, 0, W, topH, 'F'); doc.setGState(new doc.GState({ opacity: 1 }));
+  const lw = 66; doc.addImage(logo.url, 'PNG', M, 12, lw, lw * logo.ratio);
+  doc.setFont('Inter', 'bold'); doc.setTextColor(244, 158, 26); doc.setFontSize(56);
+  doc.text(pct + ' rabatu', M, 62);
+  doc.setTextColor(255, 255, 255); doc.setFontSize(22);
+  doc.text('na pierwsze zamówienie', M, 75);
+  doc.setFont('Inter', 'normal'); doc.setFontSize(14); doc.setTextColor(230, 226, 222);
+  doc.text(doc.splitTextToSize('Zeskanuj kod QR i zapisz się w 30 sekund – osobisty kupon targowy przyjdzie od razu na Twój e-mail.', W - 2 * M), M, 90);
+  if (ev){ doc.setFont('Inter', 'bold'); doc.setFontSize(12); doc.setTextColor(244, 158, 26); doc.text(ev, M, 113); }
+
+  // kod QR w ramce
+  const qs = 100, qx = (W - qs) / 2, qy = topH + 14, pad = 7;
+  doc.setFillColor(255, 255, 255); doc.setDrawColor(244, 158, 26); doc.setLineWidth(1.6);
+  doc.roundedRect(qx - pad, qy - pad, qs + 2 * pad, qs + 2 * pad, 5, 5, 'FD');
+  const cell = qs / m.n; doc.setFillColor(17, 17, 17);
+  for (let r = 0; r < m.n; r++){ let c = 0; while (c < m.n){ if (!m.dark(r, c)){ c++; continue; } let e = c; while (e < m.n && m.dark(r, e)) e++; doc.rect(qx + c * cell, qy + r * cell, (e - c) * cell + 0.02, cell + 0.02, 'F'); c = e; } }
+
+  let y = qy + qs + pad + 11;
+  doc.setFont('Inter', 'bold'); doc.setFontSize(20); doc.setTextColor(17, 17, 17);
+  doc.text('Zeskanuj aparatem w telefonie', W / 2, y, { align:'center' });
+  doc.setFont('Inter', 'normal'); doc.setFontSize(12); doc.setTextColor(74, 74, 74);
+  doc.text('Scan with your phone camera  ·  Mit der Handykamera scannen', W / 2, y + 8, { align:'center' });
+  doc.setFontSize(9.5); doc.setTextColor(119, 119, 119);
+  doc.text(qrUrl().replace(/^https?:\/\//, ''), W / 2, y + 15, { align:'center' });
+
+  // pasek dolny
+  doc.setFillColor(17, 17, 17); doc.rect(0, H - 20, W, 20, 'F');
+  doc.setFont('Inter', 'bold'); doc.setFontSize(12); doc.setTextColor(255, 255, 255);
+  doc.text('Płytki z prawdziwej cegły · 5 lat gwarancji', M, H - 8.5);
+  doc.setTextColor(244, 158, 26); doc.text('starecegly.com', W - M, H - 8.5, { align:'right' });
+
+  saveBlob(`plakat-qr-starecegly-${slug(ev)}.pdf`, doc.output('blob'));
+  flashMk('✓ Plakat pobrany – drukuj w skali 100 %.');
+}
+$('#qrPoster').addEventListener('click', () => makePoster().catch(e => mkMsg('Nie udało się utworzyć plakatu: ' + e.message, true)));
+
+/* =====================================================================
+   TRYB QR – wysyłka z telefonu odwiedzającego
+   ===================================================================== */
+async function submitPublic(lead){
+  const btn = $('#submit'), label = btn.querySelector('[data-i18n="submit"]');
+  btn.disabled = true; label.textContent = tr('sending');
+  const err = msg => { $('#consentErr').textContent = msg; $('#consentErr').style.display = 'block'; };
+  const { synced, mailSent, attempts, ...payload } = lead;
+  payload.hp = $('#hp').value;
+  try {
+    const r = await fetch('/api/public', { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok){ showThanks(lead, j.duplicate ? 'dup' : 'ok'); return; }
+    if (r.status === 429){ err(tr('errRate')); return; }
+    if (r.status === 403){ $('#qrOff').classList.add('show'); return; }
+    err(tr('errSend'));
+  } catch {
+    // brak sieci – zapis czeka w telefonie i wyśle się sam
+    const all = getLeads(); all.push({ ...lead, hp: payload.hp }); save(LS.leads, all);
+    showThanks(lead, 'queued');
+  } finally { btn.disabled = false; label.textContent = tr('submit'); }
+}
+async function initQr(){
+  if (!QR_MODE) return;
+  try {
+    const r = await fetch('/api/public', { cache:'no-store' });
+    const j = await r.json();
+    if (!j.enabled) $('#qrOff').classList.add('show');
+  } catch {}           // offline – formularz działa, zapis poczeka na sieć
+}
+$('#thxDone').addEventListener('click', () => { if (QR_MODE) window.scrollTo(0, 0); });
+
+/* =====================================================================
+   BOOT
+   ===================================================================== */
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
+applyLang(defaultLang());
+applyScreen();
+if (QR_MODE) initQr(); else checkSetup();
+renderSync();
+flush();
+</script>
+</body>
+</html>
